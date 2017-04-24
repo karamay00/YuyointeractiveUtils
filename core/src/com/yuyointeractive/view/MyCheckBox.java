@@ -179,6 +179,10 @@ public class MyCheckBox extends TImage {
 
         this.checked = checked;
     }
+    
+    public TImage getIcon(){
+      return right;
+    }
 
     public MyCheckBoxGroup getButtonGroup() {
         return buttonGroup;
