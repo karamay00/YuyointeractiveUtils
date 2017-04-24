@@ -6,8 +6,8 @@ targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets {
-    com {
-        java.srcDirs = ["src/com/yuyointeractive"]
+    core {
+        java.srcDirs = ["src/"]
         compileClasspath += sourceSets.main.runtimeClasspath;
     }
 }
