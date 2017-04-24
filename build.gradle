@@ -37,8 +37,6 @@ allprojects {
 
 project(":core") {
     apply plugin: "java"
-    
-    apply plugin: "maven"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -57,3 +55,25 @@ task packJar(type: Jar) {
     }
 }
 def preCompile = [":core:coreClasses"];
+
+packJar.dependsOn preCompile
+
+task packDoc(dependsOn: ":core:javadoc", type: Jar) {
+    classifier = "javadoc"
+    from project(":core").tasks["javadoc"].destinationDir
+}
+
+task packSources(type: Jar) {
+    classifier = "sources"
+    doFirst {
+        from files(project(":core").sourceSets.core.allJava)
+    }
+}
+
+task packAll(dependsOn: ['packJar', 'packDoc', 'packSources'])
+
+artifacts {
+    archives packJar
+    archives packDoc
+    archives packSources
+}
