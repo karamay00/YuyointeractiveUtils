@@ -96,13 +96,18 @@ public class MyCheckBox extends TImage {
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
-        if ((x >= 0 && x < getWidth() + nativeLabel.getWidth())
-                && (y >= 0 && y <= getHeight() + nativeLabel.getHeight())) {
+        Actor actor = super.hit(x, y, touchable);
+        if (actor != null){
+            return actor;
+        }
+
+        if ((x >= getWidth() && x < getWidth() + nativeLabel.getWidth())
+                && (y >= getHeight() / 2f - nativeLabel.getHeight() / 2f && y <= getHeight() / 2f + nativeLabel.getHeight() / 2f)) {
             return this;
         }
 
-        if ((x >= 0 && x < getWidth() + right.getWidth())
-                && (y >= 0 && y <= getHeight() + right.getHeight())) {
+        if ((x >= getWidth() && x < getWidth() + right.getWidth())
+                && (y >= getHeight() / 2f - right.getHeight() / 2f && y <= getHeight() / 2f + right.getHeight() / 2f)) {
             return this;
         }
 
@@ -111,8 +116,12 @@ public class MyCheckBox extends TImage {
 
     @Override
     public TImage debug() {
+        if (nativeLabel != null)
         nativeLabel.debug();
+
+        if (right != null)
         right.debug();
+
         return super.debug();
     }
 
@@ -164,7 +173,7 @@ public class MyCheckBox extends TImage {
         }
 
         if (right != null) {
-            right.pos(getRight() + 10, getY() + getHeight() / 2f - right.getHeight() / 2f);
+            right.pos(getRight() + 1, getY() + getHeight() / 2f - right.getHeight() / 2f);
             right.draw(batch, parentAlpha);
         }
     }
@@ -179,7 +188,6 @@ public class MyCheckBox extends TImage {
 
         this.checked = checked;
     }
-    
     public TImage getIcon(){
       return right;
     }
