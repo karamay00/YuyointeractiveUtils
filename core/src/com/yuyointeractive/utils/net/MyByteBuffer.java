@@ -3,9 +3,9 @@ package com.yuyointeractive.utils.net;
 import java.io.UnsupportedEncodingException;
 
 public final class MyByteBuffer {
-  protected int seed = 1;
+  public int seed = 1;
   int type;
-  byte[] bytes;
+  public byte[] bytes;
   public int postion = 0;
   public void writeUTF(String string) {
     try {

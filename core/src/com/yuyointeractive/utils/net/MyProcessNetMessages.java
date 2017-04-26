@@ -2,12 +2,12 @@ package com.yuyointeractive.utils.net;
 
 import com.badlogic.gdx.Screen;
 import com.yuyointeractive.utils.net.MyByteBuffer;
-import com.yuyointeractive.utils.net.ResponseListener;
+import com.yuyointeractive.utils.net.MyResponseListener;
 
-public abstract class MyProcessNetMessages implements ResponseListener {
+public abstract class MyProcessNetMessages implements MyResponseListener {
   protected Screen screen;
-  protected MyByteBuffer myByteBuffer;
-  protected SocketClient socketClient;
+  // protected MyByteBuffer myByteBuffer;
+  protected MySocketClient socketClient;
   public void setScreen(Screen screen) {
     this.screen = screen;
   }
@@ -26,13 +26,5 @@ public abstract class MyProcessNetMessages implements ResponseListener {
   abstract public void sendMessage(int type, Object[] messages);
   @Override
   abstract public void recevieMessage(int type, byte[] bytes);
-  public void disconnect() {
-    myByteBuffer.seed = 1;
-    myByteBuffer.bytes = null;
-    myByteBuffer.postion = 0;
-    if (socketClient != null) {
-      socketClient.close();
-      socketClient = null;
-    }
-  }
+  abstract public void disconnect();
 }

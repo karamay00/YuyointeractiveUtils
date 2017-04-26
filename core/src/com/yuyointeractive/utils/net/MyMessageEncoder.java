@@ -1,22 +1,18 @@
-package com.yuyointeractive.utils.net.codec;
+package com.yuyointeractive.utils.net;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import com.yuyointeractive.utils.net.MyByteBuffer;
-import com.yuyointeractive.utils.net.SocketClient;
-import com.yuyointeractive.utils.net.security.AESTookit;
-import com.yuyointeractive.utils.net.security.Base64;
 
 /**
  * Created by fenghuaxz on 2016/11/26.
  */
-public class MessageEncoder {
+public class MyMessageEncoder {
   // private MyByteBuffer myByteBuffer = new MyByteBuffer();
-  public static final int TYPE_HEARBEAT_MESSAGE = 0;
-  public static final int TYPE_TEXT_MESSAGE = 1;
-  public static final int TYPE_BYTES_MESSAGE = 2;
-  public static final int TYPE_FILEBLOCK_MESSAGE = 3;
-  public static final int TYPE_RSA_ENCRYPT_OF_AES_PWD = 4;
+//  public static final int TYPE_HEARBEAT_MESSAGE = 0;
+//  public static final int TYPE_TEXT_MESSAGE = 1;
+//  public static final int TYPE_BYTES_MESSAGE = 2;
+//  public static final int TYPE_FILEBLOCK_MESSAGE = 3;
+//  public static final int TYPE_RSA_ENCRYPT_OF_AES_PWD = 4;
   // public static byte[] Int2Bytes(int intValue) {
   // byte[] result = new byte[4];
   // result[0] = (byte) ((intValue & 0xFF000000) >> 24);
@@ -25,7 +21,9 @@ public class MessageEncoder {
   // result[3] = (byte) ((intValue & 0x000000FF));
   // return result;
   // }
-  public void encoder(Object msg, OutputStream out, String AESPwd) {
+  //public void encoder(Object msg, OutputStream out, String AESPwd) {
+    public void encoder(Object msg, OutputStream out) {
+    
     /*
      * if (msg instanceof String) { if (msg.equals("ping")) { String account =
      * "xvzsdf"; String authorizationCode = "sftgdd"; byte sex = 0; String
@@ -76,13 +74,13 @@ public class MessageEncoder {
       System.out.println("msg不是byte[]，是=" + msg.getClass());
     }
   }
-  private int target;
-  public void polling(SocketClient sc) {
-    target += SocketClient.THREAD_SLEEP_TIME;
-    if (target / 1000 > SocketClient.WRITE_TIMEOUT) {
-      target = 0;
+//  private int target;
+//  public void polling(SocketClient sc) {
+//    target += SocketClient.THREAD_SLEEP_TIME;
+//    if (target / 1000 > SocketClient.WRITE_TIMEOUT) {
+//      target = 0;
 //      Object[] msg = {(byte) 0};
 //      Fight14.procNetMsg.sendMessage(0, msg);
-    }
-  }
+//    }
+//  }
 }
