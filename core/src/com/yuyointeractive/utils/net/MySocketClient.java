@@ -16,8 +16,8 @@ public class MySocketClient {
   // private DataInputStream input;
   private InputStream input;
   private OutputStream output;
-  private MyMessageEncoder encoder;
-  private MyMessageDecoder decoder;
+  public MyMessageEncoder encoder;
+  public MyMessageDecoder decoder;
   //private String AESPwd;
   /**
    * 读超时(秒) 请与服务器配对
