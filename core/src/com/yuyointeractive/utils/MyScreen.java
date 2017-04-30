@@ -141,10 +141,19 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     /**
      * fileName要带上.png或者.jpg之类的后缀
      */
+//    public Texture getTexture(String fileName) {
+//        return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
+//    }
+    /**
+     * fileName要带上.png或者.jpg之类的后缀
+     */
     public Texture getTexture(String fileName) {
-        return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
+        try{
+            return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
+        }catch (Exception e){
+            return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
+        }
     }
-
     public TextureRegion getRegion(String fileName) {
         return new TextureRegion(getTexture(fileName));
     }
@@ -200,16 +209,16 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
         return nativeLabel;
     }
 
-    public NativeTextField getNativeTextFiled(Object defaultStr) {
-        NinePatchDrawable ninePatchDrawable = new NinePatchDrawable(getNinePatch("shenqingdailideheitiao.png", 18, 18, 20, 20));
+    public NativeTextField getNativeTextFiled(Object defaultStr,NinePatch background,Drawable cursor) {
+        NinePatchDrawable ninePatchDrawable = new NinePatchDrawable(background);
         TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE,
-                getDrawable("guangbiao.png"), null, ninePatchDrawable);
+                cursor, null, ninePatchDrawable);
         return new NativeTextField(defaultStr.toString(), style);
     }
 
-    public NativeTextArea getNativeTextArea(Object defaultStr) {
+    public NativeTextArea getNativeTextArea(Object defaultStr,Drawable background,Drawable cursor) {
         TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK,
-                getDrawable("guangbiao.png"), null, getDrawable("shenqingdailideheitiao.png"));
+                cursor, null, background);
         return new NativeTextArea(defaultStr.toString(), style);
     }
 
@@ -226,10 +235,9 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
         return scrollPane;
     }
 
-    public MyCheckBox getCheckBox(String name){
-        MyCheckBox checkBox = new MyCheckBox(getTexture("kong.png"), getTexture("huangseanniu.png"));
-        checkBox.setIcon(getImage(name + ".png"));
-
+    public MyCheckBox getCheckBox(String iconName,String backgroundTextureName,String checkTextureName){
+        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+        checkBox.setIcon(getImage(iconName + ".png"));
         return checkBox;
     }
 
