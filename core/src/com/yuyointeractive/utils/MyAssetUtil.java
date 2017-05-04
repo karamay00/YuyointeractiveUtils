@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyAssetUtil {
   public static String getAssetsPath(String assetsPath) {
-    return Gdx.app.getType() == ApplicationType.Desktop ? "./bin/" + assetsPath + "/" : assetsPath + "/";
-    //return assetsPath + "/";
+    //return Gdx.app.getType() == ApplicationType.Desktop ? "./bin/" + assetsPath + "/" : assetsPath + "/";
+    return assetsPath + "/";
   }
   public static void loadAssets(AssetManager assetManager, String assetsPath) {
     assetsPath = getAssetsPath(assetsPath);
