@@ -236,8 +236,10 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     }
 
     public MyCheckBox getCheckBox(String iconName,String backgroundTextureName,String checkTextureName){
-        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
-        checkBox.setIcon(getImage(iconName + ".png"));
+         MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+        if (iconName != null && iconName.length() != 0){
+            checkBox.setIcon(getImage(iconName + ".png"));
+        }
         return checkBox;
     }
 
