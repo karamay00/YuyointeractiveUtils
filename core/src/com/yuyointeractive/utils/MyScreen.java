@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -39,7 +40,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     public MyGame myGame;
 
     public MyScreen(MyGame myGame, String name) {
-        this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight));
+        this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), new PolygonSpriteBatch());
     }
 
     public MyScreen(MyGame myGame, String name, Batch batch) {
@@ -47,7 +48,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     }
 
     public MyScreen(MyGame myGame, String name, Viewport viewport) {
-        super(viewport);
+        super(viewport, new PolygonSpriteBatch());
         init(myGame, name);
     }
 
