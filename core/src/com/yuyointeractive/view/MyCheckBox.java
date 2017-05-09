@@ -3,6 +3,7 @@ package com.yuyointeractive.view;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.yuyointeractive.utils.MyGame;
+
 import net.mwplay.nativefont.NativeLabel;
 
 /**
@@ -25,6 +27,7 @@ public class MyCheckBox extends TImage {
     private NativeLabel nativeLabel;
     private TImage right;
     private boolean clickChange = true;
+    private float iconpadding = 0;
 
     public MyCheckBoxGroup buttonGroup;
 
@@ -97,7 +100,7 @@ public class MyCheckBox extends TImage {
     @Override
     public Actor hit(float x, float y, boolean touchable) {
         Actor actor = super.hit(x, y, touchable);
-        if (actor != null){
+        if (actor != null) {
             return actor;
         }
 
@@ -106,7 +109,7 @@ public class MyCheckBox extends TImage {
             return this;
         }
 
-        if ((x >= getWidth() && x < getWidth() + right.getWidth())
+        if ((x >= getWidth() && x < getWidth() + right.getWidth() + iconpadding)
                 && (y >= getHeight() / 2f - right.getHeight() / 2f && y <= getHeight() / 2f + right.getHeight() / 2f)) {
             return this;
         }
@@ -117,10 +120,10 @@ public class MyCheckBox extends TImage {
     @Override
     public TImage debug() {
         if (nativeLabel != null)
-        nativeLabel.debug();
+            nativeLabel.debug();
 
         if (right != null)
-        right.debug();
+            right.debug();
 
         return super.debug();
     }
@@ -134,6 +137,20 @@ public class MyCheckBox extends TImage {
         //this.right = image;
         this.right.setDrawable(image.getDrawable());
         this.right.setSize(image.width(), image.height());
+    }
+
+    TImage pressed, normal;
+
+    public void setIcon(TImage normal, TImage pressed) {
+        this.right.setDrawable(normal.getDrawable());
+        this.right.setSize(normal.width(), normal.height());
+
+        this.pressed = pressed;
+        this.normal = normal;
+    }
+
+    public void setIconpadding(float iconpadding) {
+        this.iconpadding = iconpadding;
     }
 
     public String getText() {
@@ -154,11 +171,12 @@ public class MyCheckBox extends TImage {
             shapes.rect(nativeLabel.getX(), nativeLabel.getY(), nativeLabel.getWidth(), nativeLabel.getHeight());
 
         if (right != null) {
-            shapes.rect(right.getX(), right.getY(), right.getWidth(), right.getHeight());
+            shapes.rect(right.getX() + iconpadding, right.getY(), right.getWidth(), right.getHeight());
         }
     }
 
     public static Vector2 gouOffset = Vector2.Zero;
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -173,7 +191,7 @@ public class MyCheckBox extends TImage {
         }
 
         if (right != null) {
-            right.pos(getRight() + 1, getY() + getHeight() / 2f - right.getHeight() / 2f);
+            right.pos(getRight() + 1 + iconpadding, getY() + getHeight() / 2f - right.getHeight() / 2f);
             right.draw(batch, parentAlpha);
         }
     }
@@ -187,9 +205,19 @@ public class MyCheckBox extends TImage {
         if (buttonGroup != null && !buttonGroup.canCheck(this, checked)) return;
 
         this.checked = checked;
+
+
+        if (pressed != null && normal != null) {
+            if (checked) {
+                right.setDrawable(pressed.getDrawable());
+            } else {
+                right.setDrawable(normal.getDrawable());
+            }
+        }
     }
-    public TImage getIcon(){
-      return right;
+
+    public TImage getIcon() {
+        return right;
     }
 
     public MyCheckBoxGroup getButtonGroup() {

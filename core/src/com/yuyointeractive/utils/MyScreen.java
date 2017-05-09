@@ -109,10 +109,10 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     public void playMusic(String fileName) {
         MyAssetUtil.playMusic(MyGame.assetManager, getRoot().getName(), fileName);
     }
-    
+
     public void playMusic(String fileName, float volume) {
-      MyAssetUtil.playMusic(MyGame.assetManager, getRoot().getName(), fileName, volume);
-  }
+        MyAssetUtil.playMusic(MyGame.assetManager, getRoot().getName(), fileName, volume);
+    }
 
     public Sound getSound(String fileName) {
         return MyAssetUtil.getSound(MyGame.assetManager, getRoot().getName(), fileName);
@@ -144,16 +144,18 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 //    public Texture getTexture(String fileName) {
 //        return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
 //    }
+
     /**
      * fileName要带上.png或者.jpg之类的后缀
      */
     public Texture getTexture(String fileName) {
-        try{
+        try {
             return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
-        }catch (Exception e){
+        } catch (Exception e) {
             return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
         }
     }
+
     public TextureRegion getRegion(String fileName) {
         return new TextureRegion(getTexture(fileName));
     }
@@ -164,14 +166,14 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     public TImage getImage(String fileName) {
         return new TImage(getTexture(fileName));
     }
-    
+
     public TImage getImage(String fileName, float angle) {
-      TImage image = new TImage(getTexture(fileName));
-      image.origonCenter();
-      image.setRotation(angle);
-      return image;
-  }
- 
+        TImage image = new TImage(getTexture(fileName));
+        image.origonCenter();
+        image.setRotation(angle);
+        return image;
+    }
+
 
     //  public MyDeskHead getDeskHead(Gamer user) {
 //    return new MyDeskHead(this, user);
@@ -191,12 +193,14 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     public TImage getNineImage(String name, int left, int right, int up, int down) {
         return new TImage(getNinePatch(name, left, right, up, down));
     }
-    public Label getFntLabel(String fontName, Object defaultStr){
-      Label.LabelStyle labelStyle = new Label.LabelStyle(getBitmapFont(fontName), Color.WHITE);
-      Label label = new Label(defaultStr.toString(), labelStyle);
 
-      return label;
-  }
+    public Label getFntLabel(String fontName, Object defaultStr) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle(getBitmapFont(fontName), Color.WHITE);
+        Label label = new Label(defaultStr.toString(), labelStyle);
+
+        return label;
+    }
+
     public NativeLabel getNativeLabel(CharSequence defaultStr, NativeFont font) {
         NativeLabel nativeLabel = new NativeLabel(defaultStr, font);
         nativeLabel.setColor(Color.WHITE);
@@ -209,14 +213,14 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
         return nativeLabel;
     }
 
-    public NativeTextField getNativeTextFiled(Object defaultStr,NinePatch background,Drawable cursor) {
+    public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
         NinePatchDrawable ninePatchDrawable = new NinePatchDrawable(background);
         TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE,
                 cursor, null, ninePatchDrawable);
         return new NativeTextField(defaultStr.toString(), style);
     }
 
-    public NativeTextArea getNativeTextArea(Object defaultStr,Drawable background,Drawable cursor) {
+    public NativeTextArea getNativeTextArea(Object defaultStr, Drawable background, Drawable cursor) {
         TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK,
                 cursor, null, background);
         return new NativeTextArea(defaultStr.toString(), style);
@@ -235,11 +239,50 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
         return scrollPane;
     }
 
-    public MyCheckBox getCheckBox(String iconName,String backgroundTextureName,String checkTextureName){
-         MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
-        if (iconName != null && iconName.length() != 0){
+    public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
+        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+        if (iconName != null && iconName.length() != 0) {
             checkBox.setIcon(getImage(iconName + ".png"));
         }
+        return checkBox;
+    }
+
+    public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName, String checkTextureName) {
+        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+
+        if (iconNamePressed != null && iconNamePressed.length() != 0) {
+            checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
+        } else {
+            if (iconNameNormal != null && iconNameNormal.length() != 0) {
+                checkBox.setIcon(getImage(iconNameNormal + ".png"));
+            }
+        }
+
+        return checkBox;
+    }
+
+    public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName, float iconpadding) {
+        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+        if (iconName != null && iconName.length() != 0) {
+            checkBox.setIcon(getImage(iconName + ".png"));
+        }
+
+        checkBox.setIconpadding(iconpadding);
+        return checkBox;
+    }
+
+    public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName, String checkTextureName, float iconpadding) {
+        MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+
+        if (iconNamePressed != null && iconNamePressed.length() != 0) {
+            checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
+        } else {
+            if (iconNameNormal != null && iconNameNormal.length() != 0) {
+                checkBox.setIcon(getImage(iconNameNormal + ".png"));
+            }
+        }
+
+        checkBox.setIconpadding(iconpadding);
         return checkBox;
     }
 
