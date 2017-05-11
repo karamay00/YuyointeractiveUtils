@@ -14,8 +14,8 @@ public class MySocketClient {
   private MyResponseListener listener;
   private boolean connected;
   // private DataInputStream input;
-  private InputStream input;
-  private OutputStream output;
+  public InputStream input;
+  public OutputStream output;
   public MyMessageEncoder encoder;
   public MyMessageDecoder decoder;
   //private String AESPwd;
@@ -64,12 +64,13 @@ public class MySocketClient {
         public void run() {
           Socket socket = null;
           try {
-            // System.out.println("nnnuuuuu8888888nnnn555connected="+connected);
+            //System.out.println("nnnuuuuu8888888nnnn555connected="+connected);
             socket = new Socket(host.getHost(), host.getPort());
+            //System.out.println("MySocketClient.reConnect(...).new Runnable() {...}.run()");
             MySocketClient.this.input = socket.getInputStream();
             MySocketClient.this.output = socket.getOutputStream();
-            // System.out.println("SocketClient.reConnect(...).new Runnable()
-            // {...}.run().out="+output.toString());
+            
+             //System.out.println("SocketClient.reConnect(...).new Runnable() {...}.run().out="+output.toString());
             if (listener != null)
               listener.onActive();
             if (msg != null)
@@ -187,9 +188,11 @@ public class MySocketClient {
       this.port = port;
     }
     public String getHost() {
+      //System.out.println("MySocketClient.Host.getHost()");
       return host;
     }
     public int getPort() {
+      //System.out.println("MySocketClient.Host.getPort()");
       return port;
     }
   }
