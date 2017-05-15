@@ -289,7 +289,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
    * fileName要带上.png或者.jpg之类的后缀
    */
   public TImage getImage(String fileName, boolean flipX, boolean flipY) {
-    TextureRegion textureRegion = getRegion(fileName);
+    TextureRegion textureRegion = new TextureRegion(getRegion(fileName));
     textureRegion.flip(flipX, flipY);
     return new TImage(textureRegion);
   }
