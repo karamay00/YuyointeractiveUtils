@@ -22,7 +22,7 @@ import net.mwplay.nativefont.NativeLabel;
 
 public class MyCheckBox extends TImage {
     private boolean checked = false;
-    private Texture gou;
+    private TextureRegion gou;
     private Array<TOnCheckedListener> checkedListeners;
     private NativeLabel nativeLabel;
     private TImage right;
@@ -31,7 +31,12 @@ public class MyCheckBox extends TImage {
 
     public MyCheckBoxGroup buttonGroup;
 
+    
     public MyCheckBox(Texture di, Texture gou) {
+      this(new TextureRegion(di), new TextureRegion(gou));
+    }
+    
+    public MyCheckBox(TextureRegion di, TextureRegion gou) {
         super(di);
         this.gou = gou;
         checkedListeners = new Array<>();
@@ -181,8 +186,7 @@ public class MyCheckBox extends TImage {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (isChecked()) {
-            batch.draw(gou, centerX() - gou.getWidth() / 2f + gouOffset.x, centerY() - gou.getHeight() / 2f + gouOffset.y, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation(), 0
-                    , 0, (int) getWidth(), (int) getHeight(), false, false);
+            batch.draw(gou, centerX() - gou.getRegionWidth() / 2f + gouOffset.x, centerY() - gou.getRegionHeight() / 2f + gouOffset.y, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         }
 
         if (nativeLabel.getText().length() > 0) {

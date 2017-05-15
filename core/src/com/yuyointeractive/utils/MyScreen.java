@@ -132,11 +132,13 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     try {
       return new TextureRegion(getTexture(fileName));
     } catch (Exception e) {
+      if (fileName.contains(".png")) {
+        fileName = fileName.substring(0, fileName.length() - 4);
+      }
       try {
-        return getTextureAtlas(getRoot().getName()).findRegion(fileName.substring(0, fileName.length() - 4));
+        return getTextureAtlas(getRoot().getName()).findRegion(fileName);
       } catch (Exception e1) {
-        return MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common")
-            .findRegion(fileName.substring(0, fileName.length() - 4));
+        return MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common").findRegion(fileName);
       }
     }
   }
@@ -147,7 +149,14 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     try {
       return new TImage(getTexture(fileName));
     } catch (Exception e) {
-      return new TImage(getRegion(fileName));
+      if (fileName.contains(".png")) {
+        fileName = fileName.substring(0, fileName.length() - 4);
+      }
+      try {
+        return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
+      } catch (Exception e1) {
+        return new TImage(MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common").findRegion(fileName));
+      }
     }
   }
   public TImage getImage(String fileName, float angle) {
