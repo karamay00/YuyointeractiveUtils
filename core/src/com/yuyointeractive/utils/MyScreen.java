@@ -219,15 +219,22 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     scrollPane.setSize(w, h);
     return scrollPane;
   }
+  private MyCheckBox getNewCheckBox(String backgroundTextureName, String checkTextureName) {
+    try {
+      return new MyCheckBox(getRegion(backgroundTextureName), getRegion(checkTextureName));
+    } catch (Exception e) {
+      return new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+    }
+  }
   public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
-    MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+    MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
     if (iconName != null && iconName.length() != 0) {
       checkBox.setIcon(getImage(iconName + ".png"));
     }
     return checkBox;
   }
   public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName, String checkTextureName) {
-    MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+    MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
     if (iconNamePressed != null && iconNamePressed.length() != 0) {
       checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
     } else {
@@ -238,7 +245,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     return checkBox;
   }
   public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName, float iconpadding) {
-    MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+    MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
     if (iconName != null && iconName.length() != 0) {
       checkBox.setIcon(getImage(iconName + ".png"));
     }
@@ -247,7 +254,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
   }
   public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName, String checkTextureName,
       float iconpadding) {
-    MyCheckBox checkBox = new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
+    MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
     if (iconNamePressed != null && iconNamePressed.length() != 0) {
       checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
     } else {
@@ -282,7 +289,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
    * fileName要带上.png或者.jpg之类的后缀
    */
   public TImage getImage(String fileName, boolean flipX, boolean flipY) {
-    TextureRegion textureRegion = new TextureRegion(getTexture(fileName));
+    TextureRegion textureRegion = getRegion(fileName);
     textureRegion.flip(flipX, flipY);
     return new TImage(textureRegion);
   }

@@ -186,7 +186,7 @@ public class MyCheckBox extends TImage {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (isChecked()) {
-            batch.draw(gou, centerX() - gou.getRegionWidth() / 2f + gouOffset.x, centerY() - gou.getRegionHeight() / 2f + gouOffset.y, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+            batch.draw(gou, centerX() - gou.getRegionWidth() / 2f + gouOffset.x, centerY() - gou.getRegionHeight() / 2f + gouOffset.y);
         }
 
         if (nativeLabel.getText().length() > 0) {
