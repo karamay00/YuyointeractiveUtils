@@ -166,7 +166,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     return new TImage(ninePatch);
   }
   public NinePatch getNinePatch(String name, int left, int right, int up, int down) {
-    return new NinePatch(getTexture(name), left, right, up, down);
+    try {
+      return new NinePatch(getTexture(name), left, right, up, down);
+    } catch (Exception e) {
+      return new NinePatch(getRegion(name), left, right, up, down);
+    }
   }
   public TImage getNineImage(String name, int left, int right, int up, int down) {
     return new TImage(getNinePatch(name, left, right, up, down));
