@@ -119,7 +119,9 @@ final public class MyWidget {
             @Override
             public void run() {
               Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
-              loadTextureFromUrlFinished.toDo(new Texture(new PixmapTextureData(pixmap, pixmap.getFormat(), false, false, true)));
+              Texture texture = new Texture(new PixmapTextureData(pixmap, pixmap.getFormat(), false, false, true));
+              texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+              loadTextureFromUrlFinished.toDo(texture);
             }
           });
         } catch (MalformedURLException e) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -15,19 +16,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 
 public class CircleMask extends TImage {
-    Texture texture;
+    TextureRegion textureRegion;
     ShapeRenderer shapeRenderer;
-
+    
     public CircleMask(Texture texture){
-        this.texture = texture;
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+      this(new TextureRegion(texture));
+  }
 
+    public CircleMask(TextureRegion textureRegion){
+        this.textureRegion = textureRegion;
         shapeRenderer = new ShapeRenderer();
-        setSize(texture.getWidth(), texture.getHeight());
+        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+    public void setTexture(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class CircleMask extends TImage {
         Gdx.gl.glColorMask(true, true, true, true);
         Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
         Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+        batch.draw(textureRegion, getX(), getY(), getWidth(), getHeight());
         batch.end();
 
         batch.begin();
