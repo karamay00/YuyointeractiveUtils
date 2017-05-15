@@ -175,6 +175,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
         return image;
     }
 
+    
+    public TImage getImage(String atlasFileName,String textureRegionName) {
+        return new TImage(getTextureAtlas(atlasFileName).findRegion(textureRegionName));
+    }
+    
 
     //  public MyDeskHead getDeskHead(Gamer user) {
 //    return new MyDeskHead(this, user);
