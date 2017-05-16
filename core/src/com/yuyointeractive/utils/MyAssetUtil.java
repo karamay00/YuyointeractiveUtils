@@ -1,5 +1,10 @@
 package com.yuyointeractive.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Files.FileType;
@@ -7,10 +12,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyAssetUtil {
@@ -36,13 +43,15 @@ public class MyAssetUtil {
         assetManager.load("" + file, TextureAtlas.class);
       }
     }
-    for (FileHandle file : Gdx.files.internal(assetsPath + "sound/").list()) {
-      if (Gdx.app.getType() == ApplicationType.Desktop) {
-        if (file.extension().matches("mp3") || file.extension().matches("ogg") || file.extension().matches("wav")) {
+    if (MyGame.isPrefetchSound) {
+      for (FileHandle file : Gdx.files.internal(assetsPath + "sound/").list()) {
+        if (Gdx.app.getType() == ApplicationType.Desktop) {
+          if (file.extension().matches("mp3") || file.extension().matches("ogg") || file.extension().matches("wav")) {
+            assetManager.load("" + file, Sound.class);
+          }
+        } else {
           assetManager.load("" + file, Sound.class);
         }
-      } else {
-        assetManager.load("" + file, Sound.class);
       }
     }
     for (FileHandle file : Gdx.files.internal(assetsPath + "music/").list()) {
@@ -64,15 +73,13 @@ public class MyAssetUtil {
       }
     }
   }
-  public static void playSound(AssetManager assetManager, String assetsPath, String fileName) {
-    if (MyGame.isSoundPlay) {
-      assetManager.get(getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3", Sound.class).play();
-    }
-  }
   public static void playSound(AssetManager assetManager, String assetsPath, String fileName, float volume) {
     if (MyGame.isSoundPlay) {
-      assetManager.get(getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3", Sound.class).play(volume);
+      getSound(assetManager, assetsPath, fileName).play(volume);
     }
+  }
+  public static void playSound(AssetManager assetManager, String assetsPath, String fileName) {
+    playSound(assetManager, assetsPath, fileName, 1);
   }
   public static void playMusic(AssetManager assetManager, String assetsPath, String fileName) {
     if (MyGame.isMusicPlay) {
@@ -88,7 +95,14 @@ public class MyAssetUtil {
     }
   }
   public static Sound getSound(AssetManager assetManager, String assetsPath, String fileName) {
-    return assetManager.get(getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3", Sound.class);
+    fileName = getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3";
+    if (assetManager.isLoaded(fileName, Sound.class)) {
+      return assetManager.get(fileName, Sound.class);
+    } else {
+      assetManager.load(fileName, Sound.class);
+      assetManager.finishLoadingAsset(fileName);
+      return assetManager.get(fileName, Sound.class);
+    }
   }
   public static Music getMusic(AssetManager assetManager, String assetsPath, String fileName) {
     return assetManager.get(getAssetsPath(assetsPath) + "music/" + fileName + ".mp3", Music.class);
