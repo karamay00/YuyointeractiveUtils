@@ -160,7 +160,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     }
   }
   public TImage getImage(String fileName, float angle) {
-    TImage image = new TImage(getTexture(fileName));
+    TImage image = getImage(fileName);
     image.origonCenter();
     image.setRotation(angle);
     return image;
