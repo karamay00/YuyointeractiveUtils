@@ -391,12 +391,11 @@ public class MyActor {
   public static class CountdownLabel extends Label {
     private int counter = 0;
     private Array<InsertEvent> insertEvents;
-    public CountdownLabel(BitmapFont bitmapfont, int countdownTime) {
-      this(bitmapfont, countdownTime, Color.WHITE);
+    public CountdownLabel(BitmapFont bitmapfont) {
+      this(bitmapfont, Color.WHITE);
     }
-    public CountdownLabel(BitmapFont bitmapfont, int countdownTime, Color color) {
+    public CountdownLabel(BitmapFont bitmapfont, Color color) {
       super("", new LabelStyle(bitmapfont, color));
-      counter = countdownTime;
       addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
         @Override
         public void run() {
@@ -414,10 +413,10 @@ public class MyActor {
           setText("" + counter);
         }
       }))));
-      setAlignment(Align.center);
       insertEvents = new Array<InsertEvent>();
     }
-    public void start() {
+    public void start(int countdownTime) {
+      counter = countdownTime;
       setText("" + counter);
       for (InsertEvent insertEvent : insertEvents) {
         insertEvent.complete = false;
