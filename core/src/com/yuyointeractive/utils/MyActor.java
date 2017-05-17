@@ -1,5 +1,6 @@
 package com.yuyointeractive.utils;
 
+import javax.xml.stream.events.StartDocument;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -25,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
@@ -55,7 +58,6 @@ import com.esotericsoftware.spine.AnimationState.TrackEntry;
 import com.yuyointeractive.utils.MyActor.DiscolorButton;
 import com.yuyointeractive.utils.MyActor.MyImageButton;
 import com.yuyointeractive.utils.MyActor.DiscolorButton.TouchUpEvent;
-import com.yuyointeractive.utils.MyActor.TimeBar.InsertEvent;
 
 public class MyActor {
   private static void drawFlashBefore(FrameBuffer fbo, Batch batch) {
@@ -334,7 +336,7 @@ public class MyActor {
             insertEvent.complete = true;
           }
         }
-      } ;
+      }
       super.act(delta);
       if (backwardTime > 0) {
         if (backwardTime <= delta) {
@@ -361,6 +363,10 @@ public class MyActor {
       this.backwardAmount = backwardAmount;
       this.backwardDuration = backwardDuration;
       backwardTime = backwardDuration;
+      // 如果某插入事件已完成，而后退后回到了该事件未完成的时刻，那么就要重新执行该事件，所以把所有事件的完成判断设置为false
+      for (InsertEvent insertEvent : insertEvents) {
+        insertEvent.complete = false;
+      }
     }
     public void addInsertEvent(InsertEvent insertEvent) {
       insertEvents.add(insertEvent);
@@ -370,16 +376,54 @@ public class MyActor {
       knob.setRegionWidth((int) value);
       for (InsertEvent insertEvent : insertEvents) {
         insertEvent.complete = false;
-      } ;
-    }
-    public static abstract class InsertEvent {
-      public float start;
-      public boolean complete;
-      public InsertEvent(float startTimeByRemainTime) {
-        this.start = startTimeByRemainTime;
-        complete = false;
       }
-      abstract protected void run();
+    }
+  }
+  public static abstract class InsertEvent {
+    public float start;
+    public boolean complete;// 主要是在TimeBar中完成时间不是确数，所以要加一个判断变量，在CountdownLabel中可以不用
+    public InsertEvent(float startTimeByRemainTime) {
+      this.start = startTimeByRemainTime;
+      complete = false;
+    }
+    abstract protected void run();
+  }
+  public static class CountdownLabel extends Label {
+    private int counter = 0;
+    private Array<InsertEvent> insertEvents;
+    public CountdownLabel(BitmapFont bitmapfont, int countdownTime) {
+      this(bitmapfont, countdownTime, Color.WHITE);
+    }
+    public CountdownLabel(BitmapFont bitmapfont, int countdownTime, Color color) {
+      super("", new LabelStyle(bitmapfont, color));
+      counter = countdownTime;
+      addAction(Actions.forever(Actions.sequence(Actions.delay(1), Actions.run(new Runnable() {
+        @Override
+        public void run() {
+          for (InsertEvent insertEvent : insertEvents) {
+            if (!insertEvent.complete) {
+              if (insertEvent.start == counter) {
+                insertEvent.run();
+                insertEvent.complete = true;
+              }
+            }
+          }
+          if (counter > 0) {
+            counter--;
+          }
+          setText("" + counter);
+        }
+      }))));
+      setAlignment(Align.center);
+    }
+    public void start() {
+      setText("" + counter);
+      for (InsertEvent insertEvent : insertEvents) {
+        insertEvent.complete = false;
+      }
+    }
+    public void addInsertEvent(InsertEvent insertEvent) {
+      insertEvents.add(insertEvent);
     }
   }
   public static class SpineActor extends Actor {
