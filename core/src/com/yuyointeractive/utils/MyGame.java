@@ -7,11 +7,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeFontPaint;
 
 public abstract class MyGame extends Game {
+  public static ShapeRenderer shapeRenderer = null;
   public static MyCommonAssets commonAssets = null;
   public static float screenScale = 1;
   public static float offX;
@@ -29,7 +31,7 @@ public abstract class MyGame extends Game {
   public static Map<String, MyScreen> screens = null;
   public static float soundVolume = 0.5f;
   public static float musicVolume = 0.5f;
-  public static boolean isPrefetchSound = true;
+  public static boolean isPreloadSound = true;
   // protected NativeFontListener fontListener;
   // private int fontSize = 30;
   public static Map<String, NativeFont> fonts = new HashMap<String, NativeFont>();
@@ -92,6 +94,12 @@ public abstract class MyGame extends Game {
   @Override
   public void dispose() {
     super.dispose();
+    if (shapeRenderer != null) {
+      shapeRenderer.dispose();
+    }
+    if (commonAssets != null) {
+      commonAssets.dispose();
+    }
     assetManager.dispose();
     loadingScreen = null;
     for (MyScreen screen : screens.values()) {

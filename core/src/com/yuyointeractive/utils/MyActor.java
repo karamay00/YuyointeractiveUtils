@@ -1,6 +1,5 @@
 package com.yuyointeractive.utils;
 
-import javax.xml.stream.events.StartDocument;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -30,14 +28,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -55,9 +50,6 @@ import com.esotericsoftware.spine.SkeletonMeshRenderer;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.AnimationState.AnimationStateListener;
 import com.esotericsoftware.spine.AnimationState.TrackEntry;
-import com.yuyointeractive.utils.MyActor.DiscolorButton;
-import com.yuyointeractive.utils.MyActor.MyImageButton;
-import com.yuyointeractive.utils.MyActor.DiscolorButton.TouchUpEvent;
 
 public class MyActor {
   private static void drawFlashBefore(FrameBuffer fbo, Batch batch) {
@@ -240,11 +232,12 @@ public class MyActor {
     private Texture fboTexture = null;
     private TextureRegion fboRegion = null;
     private float radius;
-    private ShapeRenderer shapeRenderer;
-    public CutoutRoundRect(float x, float y, float width, float height, float radius, ShapeRenderer shapeRenderer) {
+    public CutoutRoundRect(float x, float y, float width, float height, float radius) {
       super();
       isSolid = false;
-      this.shapeRenderer = shapeRenderer;
+      if (MyGame.shapeRenderer == null) {
+        MyGame.shapeRenderer = new ShapeRenderer();
+      }
       setColor(new Color(0, 0, 0, 0f));
       setBounds(x, y, width, height);
       this.radius = radius;
@@ -255,8 +248,8 @@ public class MyActor {
       fboRegion = new TextureRegion(fboTexture);
       fboRegion.flip(false, true);
     }
-    public CutoutRoundRect(float x, float y, float width, float height, ShapeRenderer shapeRenderer) {
-      this(x, y, width, height, width < height ? width / 8 : height / 8, shapeRenderer);
+    public CutoutRoundRect(float x, float y, float width, float height) {
+      this(x, y, width, height, width < height ? width / 8 : height / 8);
     }
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -264,12 +257,12 @@ public class MyActor {
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(new Color(0, 0, 0, 0.6f));
-        shapeRenderer.rect(0, 0, MyGame.worldWidth, MyGame.worldHeight);
-        shapeRenderer.end();
+        MyGame.shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        MyGame.shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        MyGame.shapeRenderer.begin(ShapeType.Filled);
+        MyGame.shapeRenderer.setColor(new Color(0, 0, 0, 0.6f));
+        MyGame.shapeRenderer.rect(0, 0, MyGame.worldWidth, MyGame.worldHeight);
+        MyGame.shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         batch.begin();
       } else {
@@ -278,21 +271,21 @@ public class MyActor {
         Gdx.gl20.glClearColor(0f, 0f, 0f, 0.6f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.translate(getX() + getOriginX(), getY() + getOriginY(), 0);
-        shapeRenderer.scale(getScaleX(), getScaleY(), 1);
-        shapeRenderer.rotate(0, 0, 1, getRotation());
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(getColor());
-        shapeRenderer.rect(0, radius, radius, getHeight() - 2 * radius);
-        shapeRenderer.rect(radius, 0, getWidth() - 2 * radius, getHeight());
-        shapeRenderer.rect(getWidth() - radius, radius, radius, getHeight() - 2 * radius);
-        shapeRenderer.arc(radius, radius, radius, 180 - 10, 90 + 10, 25);
-        shapeRenderer.arc(radius, getHeight() - radius, radius, 90 - 10, 90 + 10, 25);
-        shapeRenderer.arc(getWidth() - radius, radius, radius, 270 - 10, 90 + 10, 25);
-        shapeRenderer.arc(getWidth() - radius, getHeight() - radius, radius, 0 - 10, 90 + 10, 25);
-        shapeRenderer.end();
+        MyGame.shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        MyGame.shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        MyGame.shapeRenderer.translate(getX() + getOriginX(), getY() + getOriginY(), 0);
+        MyGame.shapeRenderer.scale(getScaleX(), getScaleY(), 1);
+        MyGame.shapeRenderer.rotate(0, 0, 1, getRotation());
+        MyGame.shapeRenderer.begin(ShapeType.Filled);
+        MyGame.shapeRenderer.setColor(getColor());
+        MyGame.shapeRenderer.rect(0, radius, radius, getHeight() - 2 * radius);
+        MyGame.shapeRenderer.rect(radius, 0, getWidth() - 2 * radius, getHeight());
+        MyGame.shapeRenderer.rect(getWidth() - radius, radius, radius, getHeight() - 2 * radius);
+        MyGame.shapeRenderer.arc(radius, radius, radius, 180 - 10, 90 + 10, 25);
+        MyGame.shapeRenderer.arc(radius, getHeight() - radius, radius, 90 - 10, 90 + 10, 25);
+        MyGame.shapeRenderer.arc(getWidth() - radius, radius, radius, 270 - 10, 90 + 10, 25);
+        MyGame.shapeRenderer.arc(getWidth() - radius, getHeight() - radius, radius, 0 - 10, 90 + 10, 25);
+        MyGame.shapeRenderer.end();
         batch.end();
         fbo.end();
         Gdx.gl20.glViewport(getStage().getViewport().getScreenX(), getStage().getViewport().getScreenY(),
@@ -305,7 +298,6 @@ public class MyActor {
     public void dispose() {
       fbo.dispose();
       fboTexture.dispose();
-      // shapeRenderer.dispose();
     }
   }
   public static class TimeBar extends Actor {
@@ -619,27 +611,6 @@ public class MyActor {
       particle.dispose();
     }
   }
-  // public static class MySprite extends Actor {
-  // public Sprite sprite;
-  // public MySprite(TextureRegion region) {
-  // this.sprite = new Sprite(region);
-  // this.setSize(region.getRegionWidth(), region.getRegionHeight());
-  // }
-  // @Override
-  // public void draw(Batch batch, float parentAlpha) {
-  // sprite.draw(batch, parentAlpha);
-  // }
-  // }
-  // public static class MyImage extends Actor{
-  // public TextureRegion region;
-  //
-  // public MyImage(TextureRegion region){
-  // this.region=region;
-  // this.setSize(region.getRegionWidth(), region.getRegionHeight());
-  //
-  // }
-  //
-  // }
   public static class MyImageButton extends Image {
     private boolean isChecked;
     private ClickListener clickListener;
@@ -751,81 +722,6 @@ public class MyActor {
       public void run(InputEvent event);
     }
   }
-  // public static class MyImageButton extends Image {
-  // private boolean isChecked;
-  // private ClickListener clickListener;
-  // private Drawable imageUp, imageDown, imageChecked;
-  // private Sound sound;
-  // public MyImageButton(Sound buttonSound, TextureRegion imageUp,
-  // TextureRegion imageDown, TextureRegion imageChecked) {
-  // super();
-  // this.sound = buttonSound;
-  // this.imageUp = new TextureRegionDrawable(imageUp);
-  // this.imageDown = new TextureRegionDrawable(imageDown);
-  // this.imageChecked = (imageChecked == null) ? null : new
-  // TextureRegionDrawable(imageChecked);
-  // setSize(imageUp.getRegionWidth(), imageUp.getRegionHeight());
-  // setDrawable(this.imageUp);
-  // setTouchable(Touchable.enabled);
-  // addListener(clickListener = new ClickListener() {
-  // @Override
-  // public void clicked(InputEvent event, float x, float y) {
-  // setChecked(!isChecked);
-  // }
-  // @Override
-  // public boolean touchDown(InputEvent event, float x, float y, int pointer,
-  // int button) {
-  // if (sound != null & MyGame.isSoundPlay) {
-  // sound.play();
-  // }
-  // return super.touchDown(event, x, y, pointer, button);
-  // }
-  // });
-  // }
-  // public MyImageButton(Sound buttonSound, TextureRegion imageUp,
-  // TextureRegion imageDown) {
-  // this(buttonSound, imageUp, imageDown, null);
-  // }
-  // public MyImageButton(TextureRegion imageUp, TextureRegion imageDown,
-  // TextureRegion imageChecked) {
-  // this(null, imageUp, imageDown, imageChecked);
-  // }
-  // public MyImageButton(TextureRegion imageUp, TextureRegion imageDown) {
-  // this(null, imageUp, imageDown, null);
-  // }
-  // public void setChecked(boolean isChecked) {
-  // if (this.isChecked == isChecked)
-  // return;
-  // this.isChecked = isChecked;
-  // ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
-  // if (fire(changeEvent))
-  // this.isChecked = !isChecked;
-  // Pools.free(changeEvent);
-  // }
-  // public boolean isChecked() {
-  // return isChecked;
-  // }
-  // public boolean isPressed() {
-  // return clickListener.isVisualPressed();
-  // }
-  // @Override
-  // public void act(float delta) {
-  // super.act(delta);
-  // updateImage();
-  // }
-  // private void updateImage() {
-  // Drawable drawable = null;
-  // if (isPressed() && imageDown != null)
-  // drawable = imageDown;
-  // else
-  // if (isChecked && imageChecked != null)
-  // drawable = imageChecked;
-  // else
-  // if (imageUp != null)
-  // drawable = imageUp;
-  // setDrawable(drawable);
-  // }
-  // }
   public static class MySlider extends Slider {
     public MySlider(float min, float max, float stepSize, boolean vertical, TextureRegion background, TextureRegion knob,
         TextureRegion knobBefore) {
@@ -864,5 +760,3 @@ public class MyActor {
     }
   }
 }
-// ((TextureRegionDrawable) knobBefore).getRegion().setRegionWidth( (int)
-// (position+getKnobDrawable().getMinWidth() * 0.5f));

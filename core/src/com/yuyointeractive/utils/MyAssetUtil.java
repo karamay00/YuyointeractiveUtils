@@ -1,10 +1,5 @@
 package com.yuyointeractive.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Files.FileType;
@@ -12,12 +7,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyAssetUtil {
@@ -43,7 +36,7 @@ public class MyAssetUtil {
         assetManager.load("" + file, TextureAtlas.class);
       }
     }
-    if (MyGame.isPrefetchSound) {
+    if (MyGame.isPreloadSound) {
       for (FileHandle file : Gdx.files.internal(assetsPath + "sound/").list()) {
         if (Gdx.app.getType() == ApplicationType.Desktop) {
           if (file.extension().matches("mp3") || file.extension().matches("ogg") || file.extension().matches("wav")) {

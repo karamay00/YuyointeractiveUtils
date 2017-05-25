@@ -6,7 +6,6 @@ import com.yuyointeractive.utils.net.MyResponseListener;
 
 public abstract class MyProcessNetMessages implements MyResponseListener {
   protected MyScreen screen;
-  // protected MyByteBuffer myByteBuffer;
   protected MySocketClient socketClient;
   public void setScreen(MyScreen screen) {
     this.screen = screen;
