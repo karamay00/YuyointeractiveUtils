@@ -387,7 +387,7 @@ public class MyActor {
       this(bitmapfont, Color.WHITE);
     }
     public CountdownLabel(BitmapFont bitmapfont, Color color) {
-      super("", new LabelStyle(bitmapfont, color));
+      super("0", new LabelStyle(bitmapfont, color));
       addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
         @Override
         public void run() {
