@@ -299,8 +299,8 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
   }
   @Override
   public void render(float delta) {
-    Gdx.gl20.glClearColor(0f, 0f, 0f, 1f);
-    Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+    Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     act();
     draw();
     if (!MyGame.isLoadingFinish) {
