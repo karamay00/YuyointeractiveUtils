@@ -200,12 +200,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     return nativeLabel;
   }
   public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
-        NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
-        TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE,
-                cursor, null, ninePatchDrawable);
-        return new NativeTextField(defaultStr.toString(), style);
-    }
-
+    NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
+    TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE, cursor, null,
+        ninePatchDrawable);
+    return new NativeTextField(defaultStr.toString(), style);
+  }
   public NativeTextArea getNativeTextArea(Object defaultStr, Drawable background, Drawable cursor) {
     TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK, cursor, null, background);
     return new NativeTextArea(defaultStr.toString(), style);
@@ -301,7 +300,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
   @Override
   public void render(float delta) {
     Gdx.gl20.glClearColor(0f, 0f, 0f, 1f);
-    Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     act();
     draw();
     if (!MyGame.isLoadingFinish) {
