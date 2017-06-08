@@ -1,5 +1,7 @@
 package com.yuyointeractive.utils;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -381,6 +383,8 @@ public class MyActor {
     abstract protected void run();
   }
   public static class CountdownLabel extends Label {
+    private Timer timer;
+    private TimerTask timerTask;
     private int counter = 0;
     private Array<InsertEvent> insertEvents;
     public CountdownLabel(BitmapFont bitmapfont) {
@@ -388,7 +392,8 @@ public class MyActor {
     }
     public CountdownLabel(BitmapFont bitmapfont, Color color) {
       super("0", new LabelStyle(bitmapfont, color));
-      addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
+      timer = new Timer(true);
+      timerTask = new TimerTask() {
         @Override
         public void run() {
           for (InsertEvent insertEvent : insertEvents) {
@@ -404,10 +409,30 @@ public class MyActor {
           }
           setText("" + counter);
         }
-      }))));
+      };
+      // addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
+      // @Override
+      // public void run() {
+      // for (InsertEvent insertEvent : insertEvents) {
+      // if (!insertEvent.complete) {
+      // if (insertEvent.start == counter) {
+      // insertEvent.run();
+      // insertEvent.complete = true;
+      // }
+      // }
+      // }
+      // if (counter > 0) {
+      // counter--;
+      // }
+      // setText("" + counter);
+      // }
+      // }))));
       insertEvents = new Array<InsertEvent>();
     }
     public void start(int countdownTime) {
+      timerTask.cancel();
+      timer.cancel();
+      timer.schedule(timerTask, 0, 1000);
       counter = countdownTime;
       setText("" + counter);
       for (InsertEvent insertEvent : insertEvents) {
