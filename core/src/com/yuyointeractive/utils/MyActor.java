@@ -384,7 +384,6 @@ public class MyActor {
   }
   public static class CountdownLabel extends Label {
     private Timer timer;
-    private TimerTask timerTask;
     private int counter = 0;
     private Array<InsertEvent> insertEvents;
     public CountdownLabel(BitmapFont bitmapfont) {
@@ -393,7 +392,7 @@ public class MyActor {
     public CountdownLabel(BitmapFont bitmapfont, Color color) {
       super("0", new LabelStyle(bitmapfont, color));
       timer = new Timer(true);
-      timerTask = new TimerTask() {
+      timer.schedule(new TimerTask() {
         @Override
         public void run() {
           for (InsertEvent insertEvent : insertEvents) {
@@ -409,7 +408,7 @@ public class MyActor {
           }
           setText("" + counter);
         }
-      };
+      }, 0, 1000);
       // addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
       // @Override
       // public void run() {
@@ -430,9 +429,6 @@ public class MyActor {
       insertEvents = new Array<InsertEvent>();
     }
     public void start(int countdownTime) {
-      timerTask.cancel();
-      timer.cancel();
-      timer.schedule(timerTask, 0, 1000);
       counter = countdownTime;
       setText("" + counter);
       for (InsertEvent insertEvent : insertEvents) {
