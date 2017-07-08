@@ -64,13 +64,14 @@ public class MySocketClient {
         public void run() {
           Socket socket = null;
           try {
-            //System.out.println("nnnuuuuu8888888nnnn555connected="+connected);
+            System.out.println("nnnuuuuu8888888nnnn555connected="+connected);
             socket = new Socket(host.getHost(), host.getPort());
-            //System.out.println("MySocketClient.reConnect(...).new Runnable() {...}.run()");
+            System.out.println("MySocketClient.reConnect(...).new Runnable() {...}.run()");
             MySocketClient.this.input = socket.getInputStream();
             MySocketClient.this.output = socket.getOutputStream();
             
-             //System.out.println("SocketClient.reConnect(...).new Runnable() {...}.run().out="+output.toString());
+            System.out.println("socket="+socket.getLocalPort());
+            System.out.println("SocketClient.reConnect(...).new Runnable() {...}.run().out="+output.toString());
             if (listener != null)
               listener.onActive();
             if (msg != null)
@@ -82,8 +83,11 @@ public class MySocketClient {
           }
           while (connected) {
             try {
+              //System.out.println("tttttsocket="+socket.isConnected()+"--socket.getLocalAddress()="+socket.getInetAddress());
               int length = input.available();
+              //System.out.println("ceshiceshiceshiceshi.length="+length);
               if (length != 0) {
+               // System.out.println("BBBBBBBBBBBB");
                 if (decoder != null) {
                   // SocketClient.this.AESPwd=decoder.decoder(listener,input,openSecurity());
                   decoder.decoder(listener, input);
@@ -124,7 +128,7 @@ public class MySocketClient {
           // System.out.println("encoder="+encoder);
           //encoder.encoder(msg, output, AESPwd);
           encoder.encoder(msg, output);
-          // System.out.println("XXXXVSDAFASDAWEWE");
+         System.out.println("XXXXVSDAFASDAWEWE");
         } catch (Exception e) {
           close();
         }
