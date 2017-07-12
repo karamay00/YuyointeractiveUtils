@@ -214,7 +214,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     }
 
     public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
-        NinePatchDrawable ninePatchDrawable = new NinePatchDrawable(background);
+        NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
         TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE,
                 cursor, null, ninePatchDrawable);
         return new NativeTextField(defaultStr.toString(), style);
@@ -302,6 +302,19 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     public ScrollPane getHSrollPane(float w, float h, Array<Actor> items) {
         HorizontalGroup verticalGroup = new HorizontalGroup();
         verticalGroup.space(10);
+        for (Actor actor : items) {
+            verticalGroup.addActor(actor);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(verticalGroup);
+        scrollPane.setSize(w, h);
+
+        return scrollPane;
+    }
+
+    public ScrollPane getHSrollPane(float w, float h, float space, Array<Actor> items) {
+        HorizontalGroup verticalGroup = new HorizontalGroup();
+        verticalGroup.space(space);
         for (Actor actor : items) {
             verticalGroup.addActor(actor);
         }
