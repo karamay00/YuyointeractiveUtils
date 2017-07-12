@@ -285,6 +285,18 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     scrollPane.setSize(w, h);
     return scrollPane;
   }
+  public ScrollPane getHSrollPane(float w, float h, float space, Array<Actor> items) {
+      HorizontalGroup verticalGroup = new HorizontalGroup();
+      verticalGroup.space(space);
+      for (Actor actor : items) {
+          verticalGroup.addActor(actor);
+      }
+
+      ScrollPane scrollPane = new ScrollPane(verticalGroup);
+      scrollPane.setSize(w, h);
+
+      return scrollPane;
+  }
   /**
    * fileName要带上.png或者.jpg之类的后缀
    */
