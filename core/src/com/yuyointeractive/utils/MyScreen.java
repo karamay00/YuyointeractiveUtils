@@ -66,7 +66,9 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
     Gdx.input.setCatchBackKey(true);
     // Gdx.input.setCatchMenuKey(true);
     MyGame.assetManager.finishLoading();
-    MyGame.loadingScreen.remove();
+    if(MyGame.loadingScreen!=null){
+      MyGame.loadingScreen.remove();
+    }
     for (Texture texture : MyGame.assetManager.getAll(Texture.class, new Array<Texture>())) {
       texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     }
