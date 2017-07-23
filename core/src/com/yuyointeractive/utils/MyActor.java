@@ -48,7 +48,7 @@ import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonBinary;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
-import com.esotericsoftware.spine.SkeletonMeshRenderer;
+import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.Slot;
 import com.esotericsoftware.spine.AnimationState.AnimationStateListener;
 import com.esotericsoftware.spine.AnimationState.TrackEntry;
@@ -440,7 +440,7 @@ public class MyActor {
     }
   }
   public static class SpineActor extends Actor {
-    public static SkeletonMeshRenderer renderer;
+    public static SkeletonRenderer renderer;
     public Skeleton skeleton;
     public AnimationStateData animationStateData;
     public AnimationState animationState;
@@ -450,8 +450,10 @@ public class MyActor {
     }
     public SpineActor(SkeletonData skeletonData, boolean isLoop) {
       super();
-      renderer = new SkeletonMeshRenderer();
-      renderer.setPremultipliedAlpha(true);
+      if(renderer==null) {
+	  renderer = new SkeletonRenderer();
+	  renderer.setPremultipliedAlpha(true);
+      }
       this.isLoop = isLoop;
       init(skeletonData);
     }

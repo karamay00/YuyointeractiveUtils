@@ -44,7 +44,7 @@ targetCompatibility = 1.7
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.esotericsoftware.spine:spine-libgdx:3.5.51.1"
+        compile "com.esotericsoftware.spine:spine-libgdx:3.6.34.0"
         compile "com.github.tianqiujie:nativefont:2.5.1"
     }
 }
