@@ -31,6 +31,13 @@ public class MyCheckBoxGroup<T extends MyCheckBox>{
             checkBoxGroup.add(buttons);
             checkBoxGroup.setMaxCheckCount(1);
         }
+        
+        public static void make(int minCheckCount,int maxCheckCount,MyCheckBox... buttons){
+            MyCheckBoxGroup checkBoxGroup = new MyCheckBoxGroup<>();
+            checkBoxGroup.add(buttons);
+            checkBoxGroup.setMinCheckCount(minCheckCount);
+            checkBoxGroup.setMaxCheckCount(maxCheckCount);
+        }
 
         public void add (T button) {
             if (button == null) throw new IllegalArgumentException("button cannot be null.");
