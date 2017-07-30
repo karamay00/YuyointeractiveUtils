@@ -703,7 +703,7 @@ public class MyActor {
     }
   }
   public static class DiscolorButton extends Image {
-    public TouchUpEvent touchUpEvent;
+    private Array<TouchUpEvent> touchUpEvents;
     public DiscolorButton(NinePatch patch, TouchUpEvent touchUpEvent) {
       this(new NinePatchDrawable(patch), Scaling.stretch, Align.center, touchUpEvent);
     }
@@ -724,7 +724,8 @@ public class MyActor {
     }
     public DiscolorButton(Drawable drawable, Scaling scaling, int align, TouchUpEvent touchUpEvent) {
       super(drawable, scaling, align);
-      this.touchUpEvent = touchUpEvent;
+      touchUpEvents=new Array<TouchUpEvent>();
+      touchUpEvents.add(touchUpEvent);
       this.addListener(new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -737,9 +738,14 @@ public class MyActor {
           if (event.getTarget().hit(x, y, true) == null) {
             return;
           }
-          DiscolorButton.this.touchUpEvent.run(event);
+          for (int i = 0; i < touchUpEvents.size; i++) {
+	    touchUpEvents.get(i).run(event);
+	 }
         }
       });
+    }
+    public void addTouchUpEvent(TouchUpEvent touchUpEvent) {
+	touchUpEvents.add(touchUpEvent);
     }
     public static interface TouchUpEvent {
       public void run(InputEvent event);
