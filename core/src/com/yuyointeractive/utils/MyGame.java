@@ -115,6 +115,7 @@ public abstract class MyGame extends Game {
 	screens.clear();
 	if (shapeRenderer != null) {
 	    shapeRenderer.dispose();
+	    shapeRenderer = null;
 	}
 	Gdx.app.exit();
     }
