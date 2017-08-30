@@ -396,6 +396,7 @@ public class MyActor {
       timer.schedule(new TimerTask() {
         @Override
         public void run() {
+            //将foreach改成下面这种按索引遍历就对了，看来以后有空得把foreach的地方都尽量改成按索引遍历
             for (int i = 0; i < insertEvents.size; i++) {
         	if (!insertEvents.get(i).complete) {
                     if (insertEvents.get(i).start == counter) {
