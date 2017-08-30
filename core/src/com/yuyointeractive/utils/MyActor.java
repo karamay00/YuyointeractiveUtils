@@ -396,14 +396,22 @@ public class MyActor {
       timer.schedule(new TimerTask() {
         @Override
         public void run() {
-          for (InsertEvent insertEvent : insertEvents) {
-            if (!insertEvent.complete) {
-              if (insertEvent.start == counter) {
-                insertEvent.run();
-                insertEvent.complete = true;
-              }
-            }
-          }
+            for (int i = 0; i < insertEvents.size; i++) {
+        	if (!insertEvents.get(i).complete) {
+                    if (insertEvents.get(i).start == counter) {
+                	insertEvents.get(i).run();
+                	insertEvents.get(i).complete = true;
+                    }
+                  }
+	    }
+//          for (InsertEvent insertEvent : insertEvents) {
+//            if (!insertEvent.complete) {
+//              if (insertEvent.start == counter) {
+//                insertEvent.run();
+//                insertEvent.complete = true;
+//              }
+//            }
+//          }
           if (counter > 0) {
             counter--;
           }
