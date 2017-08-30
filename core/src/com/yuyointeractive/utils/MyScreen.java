@@ -129,6 +129,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	try {
 	    return MyAssetUtil.getTextureAtlas(MyGame.assetManager, getRoot().getName(), fileName);
 	} catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
+	    //System.out.println("MyScreen.getTextureAtlas().fileName=" + fileName);
 	    String filePath = getRoot().getName() + "/atlas/" + fileName + ".atlas";
 	    MyGame.assetManager.load(filePath, TextureAtlas.class);
 	    MyGame.assetManager.finishLoadingAsset(filePath);
@@ -200,35 +201,38 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
      * fileName要带上.png或者.jpg之类的后缀
      */
     public TImage getImage(String fileName) {
-	try {
+
+	if (Gdx.files.getFileHandle(getAssetsPath() + "texture/" + fileName, FileType.Internal).exists()) {
 	    return new TImage(getTexture(fileName));
-	} catch (Exception e) {
+	} else {
 	    if (fileName.contains(".png")) {
 		fileName = fileName.substring(0, fileName.length() - 4);
 	    }
-	    try {
-		return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
-	    } catch (Exception e1) {
-		try {
-		    return new TImage(MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common")
-			    .findRegion(fileName));
-		} catch (Exception e2) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-		    String filePath = getRoot().getName() + "/texture/" + fileName + ".png";
-		    if (Gdx.files.getFileHandle(filePath, FileType.Internal).exists()) {
-			MyGame.assetManager.load(filePath, TextureAtlas.class);
-			MyGame.assetManager.finishLoadingAsset(filePath);
-			return new TImage(getTexture(fileName + ".png"));
-		    } else {
-			filePath = getRoot().getName() + "/atlas/" + getRoot().getName() + ".atlas";
-			MyGame.assetManager.load(filePath, TextureAtlas.class);
-			MyGame.assetManager.finishLoadingAsset(filePath);
-			return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
-		    }
-		}
+	    if (Gdx.files.getFileHandle("common/", FileType.Internal).exists()) {
+		return new TImage(MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common")
+			.findRegion(fileName));
+	    } else {
+		//try {
+		//    System.out.println("000000MyScreen.getImage().fileName=" + fileName);
+		    return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
+		//} catch (Exception e) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
+		//    System.out.println("222222MyScreen.getImage().fileName=" + fileName);
+		 //   String filePath = getRoot().getName() + "/texture/" + fileName + ".png";
+		  //  if (Gdx.files.getFileHandle(filePath, FileType.Internal).exists()) {
+		//	MyGame.assetManager.load(filePath, TextureAtlas.class);
+		//	MyGame.assetManager.finishLoadingAsset(filePath);
+		//	return new TImage(getTexture(fileName + ".png"));
+		 //   } else {
+		//	filePath = getRoot().getName() + "/atlas/" + getRoot().getName() + ".atlas";
+		//	MyGame.assetManager.load(filePath, TextureAtlas.class);
+		//	MyGame.assetManager.finishLoadingAsset(filePath);
+		//	return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
+		//    }
+		//}
 	    }
 	}
     }
-
+    
     public TImage getImage(String fileName, float angle) {
 	TImage image = getImage(fileName);
 	image.origonCenter();

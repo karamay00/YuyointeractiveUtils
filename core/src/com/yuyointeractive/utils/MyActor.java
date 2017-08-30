@@ -392,6 +392,7 @@ public class MyActor {
     public CountdownLabel(BitmapFont bitmapfont, Color color) {
       super("0", new LabelStyle(bitmapfont, color));
       timer = new Timer(true);
+      insertEvents = new Array<InsertEvent>();
       timer.schedule(new TimerTask() {
         @Override
         public void run() {
@@ -426,7 +427,6 @@ public class MyActor {
       // setText("" + counter);
       // }
       // }))));
-      insertEvents = new Array<InsertEvent>();
     }
     public void start(int countdownTime) {
       counter = countdownTime;
