@@ -547,15 +547,21 @@ public class MyActor {
     }
     @Override
     public void draw(Batch batch, float parentAlpha) {
-      // skeleton.updateWorldTransform();
-      Color color = getColor();
-      batch.setColor(color);
-      for (Slot slot : skeleton.getSlots()) {
-        slot.getColor().set(color.r, color.g, color.b, color.a * parentAlpha);
-      }
+	Color color = skeleton.getColor();
+	float oldAlpha = color.a;
+	skeleton.getColor().a *= parentAlpha;
+	skeleton.setPosition(getX(), getY());
+	//renderer.draw(batch, skeleton);
+	color.a = oldAlpha;
+      //// skeleton.updateWorldTransform();
+      //Color color = getColor();
+      //batch.setColor(color);
+      //for (Slot slot : skeleton.getSlots()) {
+       // slot.getColor().set(color.r, color.g, color.b, color.a * parentAlpha);
+      //}
       // System.out.println("MyActor.SpineActor.draw()========="+skeleton.toString()+"==="+skeleton.getRootBone().getScaleX());
       renderer.draw((PolygonSpriteBatch) batch, skeleton);
-      batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+      //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     }
     @Override
     protected void positionChanged() {
