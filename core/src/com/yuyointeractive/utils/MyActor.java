@@ -561,7 +561,7 @@ public class MyActor {
       //}
       // System.out.println("MyActor.SpineActor.draw()========="+skeleton.toString()+"==="+skeleton.getRootBone().getScaleX());
       renderer.draw((PolygonSpriteBatch) batch, skeleton);
-      //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+      batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     }
     @Override
     protected void positionChanged() {
