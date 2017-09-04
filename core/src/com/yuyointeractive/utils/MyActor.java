@@ -762,6 +762,15 @@ public class MyActor {
     public void addTouchUpEvent(TouchUpEvent touchUpEvent) {
 	touchUpEvents.add(touchUpEvent);
     }
+    
+    public void removeTouchUpEvent(TouchUpEvent touchUpEvent) {
+	touchUpEvents.removeValue(touchUpEvent, false);
+    }
+    
+    public void clearTouchUpEvents() {
+	touchUpEvents.clear();
+    }
+    
     public static interface TouchUpEvent {
       public void run(InputEvent event);
     }
