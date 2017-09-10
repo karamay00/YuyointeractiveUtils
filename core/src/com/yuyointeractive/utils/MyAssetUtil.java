@@ -92,6 +92,7 @@ public class MyAssetUtil {
     if (assetManager.isLoaded(fileName, Sound.class)) {
       return assetManager.get(fileName, Sound.class);
     } else {
+      assetManager.finishLoading();
       assetManager.load(fileName, Sound.class);
       assetManager.finishLoadingAsset(fileName);
       return assetManager.get(fileName, Sound.class);
