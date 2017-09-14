@@ -440,10 +440,23 @@ public class MyActor {
     public void start(int countdownTime) {
       counter = countdownTime;
       setText("" + counter);
-      for (InsertEvent insertEvent : insertEvents) {
-        insertEvent.complete = false;
+      for (int i = 0; i < insertEvents.size; i++) {
+	insertEvents.get(i).complete=false;
       }
     }
+    
+    public void removeInsertEvent(InsertEvent insertEvent) {
+	insertEvents.removeValue(insertEvent, false);
+    }
+    
+    public void clearInsertEvents() {
+	insertEvents.clear();
+    }
+    
+    public void clearTimerTask() {
+	timer.cancel();
+    }
+    
     public void addInsertEvent(InsertEvent insertEvent) {
       insertEvents.add(insertEvent);
     }
