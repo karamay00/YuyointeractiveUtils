@@ -474,7 +474,7 @@ public class MyActor {
       super();
       if(renderer==null) {
 	  renderer = new SkeletonRenderer();
-	  renderer.setPremultipliedAlpha(true);
+	  renderer.setPremultipliedAlpha(false);
       }
       this.isLoop = isLoop;
       init(skeletonData);
