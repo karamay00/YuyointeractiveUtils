@@ -1,5 +1,7 @@
 package com.yuyointeractive.utils;
 
+import javax.sql.rowset.Joinable;
+
 public interface MyCrossPlatformHandler {
   // public void loadingRank();
   //
@@ -23,17 +25,25 @@ public interface MyCrossPlatformHandler {
   //
   // public void orderQuer();
   //
-  public void quit();
+ // public void quit();
   // public void login(Gamer gamer, OnLoginListener listener);
   public void loginWeChat(MyNetworkListener listener);
-  public void loginAlipay();
+  //public void loginAlipay();
   public void shareWeChatTimeLine(String title, String description);
   public void shareWeChatSession(String title, String description);
-  public void shareAlipay(String str);
-  public void startRecordVoice(String id);
-  public void playVoice(String id);
-  public void connectRongCloud(String token);
-  public void createDiscussion(String roomId, String myUserId);
-  public void addMemberToDiscussion(String userId);
-  public void stopRecordVoice(String roomId,String voiceId);
+  //public void shareAlipay(String str);
+  
+  public void startSpeak();
+  public void stopSpeak();
+  
+  public void joinChannel(int roomId, int myId);
+  public void leaveChannel();
+  
+  
+//  public void startRecordVoice(String id);
+//  public void playVoice(String id);
+//  public void connectRongCloud(String token);
+//  public void createDiscussion(String roomId, String myUserId);
+//  public void addMemberToDiscussion(String userId);
+//  public void stopRecordVoice(String roomId,String voiceId);
 }
