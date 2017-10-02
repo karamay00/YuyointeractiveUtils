@@ -87,7 +87,7 @@ public class MyAssetUtil {
       assetManager.get(getAssetsPath(assetsPath) + "music/" + fileName + ".mp3", Music.class).play();
     }
   }
-  public static Sound getSound(AssetManager assetManager, String assetsPath, String fileName) {
+  public synchronized static Sound getSound(AssetManager assetManager, String assetsPath, String fileName) {
     fileName = getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3";
     if (assetManager.isLoaded(fileName, Sound.class)) {
       return assetManager.get(fileName, Sound.class);
