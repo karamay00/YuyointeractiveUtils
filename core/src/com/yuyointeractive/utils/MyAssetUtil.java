@@ -105,18 +105,17 @@ public class MyAssetUtil {
 	}
     }
 
-    // public static Sound getSound(AssetManager assetManager, String assetsPath,
-    // String fileName) {
-    // fileName = getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3";
-    // if (assetManager.isLoaded(fileName, Sound.class)) {
-    // return assetManager.get(fileName, Sound.class);
-    // } else {
-    // assetManager.finishLoading();
-    // assetManager.load(fileName, Sound.class);
-    // assetManager.finishLoadingAsset(fileName);
-    // return assetManager.get(fileName, Sound.class);
-    // }
-    // }
+    public static Sound getSound(AssetManager assetManager, String assetsPath, String fileName) {
+	fileName = getAssetsPath(assetsPath) + "sound/" + fileName + ".mp3";
+	if (assetManager.isLoaded(fileName, Sound.class)) {
+	    return assetManager.get(fileName, Sound.class);
+	} else {
+	    assetManager.finishLoading();
+	    assetManager.load(fileName, Sound.class);
+	    assetManager.finishLoadingAsset(fileName);
+	    return assetManager.get(fileName, Sound.class);
+	}
+    }
     public static Music getMusic(AssetManager assetManager, String assetsPath, String fileName) {
 	return assetManager.get(getAssetsPath(assetsPath) + "music/" + fileName + ".mp3", Music.class);
     }
