@@ -78,10 +78,14 @@ public class MyAssetUtil {
 	    } else {
 		assetManager.load(fileName, Sound.class);
 		assetManager.finishLoadingAsset(fileName);
-		assetManager.get(fileName, Sound.class).play(volume);
 		if (Gdx.app.getType() == ApplicationType.Android) {
-		    assetManager.get(fileName, Sound.class).play(volume);
+		    try {
+			Thread.sleep(250);
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
 		}
+		assetManager.get(fileName, Sound.class).play(volume);
 	    }
 	}
     }
@@ -110,7 +114,6 @@ public class MyAssetUtil {
 	if (assetManager.isLoaded(fileName, Sound.class)) {
 	    return assetManager.get(fileName, Sound.class);
 	} else {
-	    assetManager.finishLoading();
 	    assetManager.load(fileName, Sound.class);
 	    assetManager.finishLoadingAsset(fileName);
 	    return assetManager.get(fileName, Sound.class);
