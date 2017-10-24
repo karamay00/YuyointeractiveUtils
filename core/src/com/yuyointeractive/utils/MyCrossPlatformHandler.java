@@ -33,11 +33,16 @@ public interface MyCrossPlatformHandler {
   public void shareWeChatSession(String title, String description);
   //public void shareAlipay(String str);
   
-  public void startSpeak();
-  public void stopSpeak();
+ // public void startSpeak();
+ // public void stopSpeak();
   
-  public void joinChannel(int roomId, int myId);
-  public void leaveChannel();
+ // public void joinChannel(int roomId, int myId);
+ // public void leaveChannel();
+
+public void startRecordVoice();
+public void stopRecordVoice();
+public void playVoice(String url);
+public void loginYunvaIm(String id, String nickname);
   
   
 //  public void startRecordVoice(String id);
