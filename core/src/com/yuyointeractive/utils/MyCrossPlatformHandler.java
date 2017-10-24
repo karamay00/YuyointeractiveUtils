@@ -41,7 +41,7 @@ public interface MyCrossPlatformHandler {
 
 public void startRecordVoice();
 public void stopRecordVoice();
-public void playVoice(String url);
+public void playVoice(String url,byte pos);
 public void loginYunvaIm(String id, String nickname);
   
   
