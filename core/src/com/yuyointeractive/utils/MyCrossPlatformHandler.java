@@ -40,7 +40,7 @@ public interface MyCrossPlatformHandler {
  // public void leaveChannel();
 
 public void startRecordVoice();
-public void stopRecordVoice();
+public void stopRecordVoice(boolean isCancelUpload);
 public void playVoice(String url,byte pos);
 public void loginYunvaIm(String id, String nickname);
   
