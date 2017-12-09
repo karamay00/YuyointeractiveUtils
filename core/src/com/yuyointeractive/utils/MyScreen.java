@@ -190,6 +190,10 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		return new TImage(getNinePatch(name, left, right, up, down));
 	}
 
+	public TImage getNineImage(TextureAtlas atlas, String name, int left, int right, int up, int down) {
+		return new TImage(new NinePatch(atlas.findRegion(name), left, right, up, down));
+	}
+
 	public Label getFntLabel(String fontName, Object defaultStr) {
 		Label.LabelStyle labelStyle = new Label.LabelStyle(MyAssetUtil.getBitmapFont(getRoot().getName(), fontName),
 				Color.WHITE);
