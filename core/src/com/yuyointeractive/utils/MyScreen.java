@@ -3,6 +3,7 @@ package com.yuyointeractive.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -37,419 +38,387 @@ import net.mwplay.nativefont.NativeTextArea;
 import net.mwplay.nativefont.NativeTextField;
 
 public class MyScreen extends Stage implements Screen {// ,GestureListener{
-    public MyGame myGame;
+	public MyGame myGame;
 
-    public MyScreen(MyGame myGame, String name) {
-	this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), new PolygonSpriteBatch());
-    }
-
-    public MyScreen(MyGame myGame, String name, Batch batch) {
-	this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), batch);
-    }
-
-    public MyScreen(MyGame myGame, String name, Viewport viewport) {
-	super(viewport, new PolygonSpriteBatch());
-	init(myGame, name);
-    }
-
-    public MyScreen(MyGame myGame, String name, Viewport viewport, Batch batch) {
-	super(viewport, batch);
-	init(myGame, name);
-    }
-
-    public void init(MyGame myGame, String name) {
-	addActor(MyGame.loadingScreen);
-	this.myGame = myGame;
-	getRoot().setName(name);
-	MyAssetUtil.loadAssets(MyGame.assetManager, name);
-    }
-
-    public void assign() {
-	// InputMultiplexer multiplexer = new InputMultiplexer();
-	// multiplexer.addProcessor(this);
-	// multiplexer.addProcessor(new GestureDetector(this));
-	// Gdx.input.setInputProcessor(multiplexer);
-	Gdx.input.setInputProcessor(this);
-	Gdx.input.setCatchBackKey(true);
-	// Gdx.input.setCatchMenuKey(true);
-	MyGame.assetManager.finishLoading();
-	if (MyGame.loadingScreen != null) {
-	    MyGame.loadingScreen.remove();
+	public MyScreen(MyGame myGame, String name) {
+		this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), new PolygonSpriteBatch());
 	}
-	for (Texture texture : MyGame.assetManager.getAll(Texture.class, new Array<Texture>())) {
-	    texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+	public MyScreen(MyGame myGame, String name, Batch batch) {
+		this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), batch);
 	}
-	for (BitmapFont bitmapFont : MyGame.assetManager.getAll(BitmapFont.class, new Array<BitmapFont>())) {
-	    bitmapFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+	public MyScreen(MyGame myGame, String name, Viewport viewport) {
+		super(viewport, new PolygonSpriteBatch());
+		init(myGame, name);
 	}
-    }
 
-    public String getName() {
-	return getRoot().getName();
-    }
-
-    public void changeScreen(String nextScreenName) {
-	MyGame.screens.get(getRoot().getName()).dispose();
-	MyGame.screens.remove(getRoot().getName());
-	if (MyGame.screens.get(nextScreenName) == null) {
-	    myGame.createScreen(nextScreenName);
+	public MyScreen(MyGame myGame, String name, Viewport viewport, Batch batch) {
+		super(viewport, batch);
+		init(myGame, name);
 	}
-	myGame.setScreen(MyGame.screens.get(nextScreenName));
-    }
 
-    public String getAssetsPath() {
-	return MyAssetUtil.getAssetsPath(getRoot().getName());
-    }
-
-    public void playSound(String fileName) {
-	MyAssetUtil.playSound(MyGame.assetManager, getRoot().getName(), fileName);
-    }
-
-    public void playSound(String fileName, float volume) {
-	MyAssetUtil.playSound(MyGame.assetManager, getRoot().getName(), fileName, volume);
-    }
-
-    public void playMusic(String fileName) {
-	MyAssetUtil.playMusic(MyGame.assetManager, getRoot().getName(), fileName);
-    }
-
-    public void playMusic(String fileName, float volume) {
-	MyAssetUtil.playMusic(MyGame.assetManager, getRoot().getName(), fileName, volume);
-    }
-
-    public Sound getSound(String fileName) {
-	return MyAssetUtil.getSound(MyGame.assetManager, getRoot().getName(), fileName);
-    }
-
-    public Music getMusic(String fileName) {
-	return MyAssetUtil.getMusic(MyGame.assetManager, getRoot().getName(), fileName);
-    }
-
-    public TextureAtlas getTextureAtlas(String fileName) {
-	try {
-	    return MyAssetUtil.getTextureAtlas(MyGame.assetManager, getRoot().getName(), fileName);
-	} catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-	    //System.out.println("MyScreen.getTextureAtlas().fileName=" + fileName);
-	    String filePath = getRoot().getName() + "/atlas/" + fileName + ".atlas";
-	    MyGame.assetManager.load(filePath, TextureAtlas.class);
-	    MyGame.assetManager.finishLoadingAsset(filePath);
-	    return MyAssetUtil.getTextureAtlas(MyGame.assetManager, getRoot().getName(), fileName);
+	public void init(MyGame myGame, String name) {
+		addActor(MyGame.loadingScreen);
+		this.myGame = myGame;
+		getRoot().setName(name);
+		MyAssetUtil.loadAssets(MyGame.assetManager, name);
 	}
-    }
 
-    public BitmapFont getBitmapFont(String fileName) {
-	try {
-	    return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
-	} catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-	    String filePath = getRoot().getName() + "/fnt/" + fileName + ".fnt";
-	    MyGame.assetManager.load(filePath, BitmapFont.class);
-	    MyGame.assetManager.finishLoadingAsset(filePath);
-	    return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
+	public void assign() {
+		// InputMultiplexer multiplexer = new InputMultiplexer();
+		// multiplexer.addProcessor(this);
+		// multiplexer.addProcessor(new GestureDetector(this));
+		// Gdx.input.setInputProcessor(multiplexer);
+		Gdx.input.setInputProcessor(this);
+		Gdx.input.setCatchBackKey(true);
+		// Gdx.input.setCatchMenuKey(true);
+		MyGame.assetManager.finishLoading();
+		if (MyGame.loadingScreen != null) {
+			MyGame.loadingScreen.remove();
+		}
+		for (Texture texture : MyGame.assetManager.getAll(Texture.class, new Array<Texture>())) {
+			texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
+		for (BitmapFont bitmapFont : MyGame.assetManager.getAll(BitmapFont.class, new Array<BitmapFont>())) {
+			bitmapFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
 	}
-    }
 
-    public BitmapFont getBitmapFont(TextureAtlas atlas, String fileName) {
-	return MyAssetUtil.getBitmapFont(atlas, getRoot().getName(), fileName);
-    }
-
-    public Drawable getDrawable(String fileName) {
-	return new TextureRegionDrawable(getRegion(fileName));
-    }
-
-    /**
-     * fileName要带上.png或者.jpg之类的后缀
-     */
-    public Texture getTexture(String fileName) {
-	try {
-	    return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
-	} catch (Exception e) {
-	    try {
-		return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
-	    } catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-		String filePath = getRoot().getName() + "/texture/" + fileName;
-		MyGame.assetManager.load(filePath, Texture.class);
-		MyGame.assetManager.finishLoadingAsset(filePath);
-		return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
-	    }
+	public String getName() {
+		return getRoot().getName();
 	}
-    }
 
-    public TextureRegion getRegion(String fileName) {
-	try {
-	    return new TextureRegion(getTexture(fileName));
-	} catch (Exception e) {
-	    if (fileName.contains(".png")) {
-		fileName = fileName.substring(0, fileName.length() - 4);
-	    }
-	    try {
-		return getTextureAtlas(getRoot().getName()).findRegion(fileName);
-	    } catch (Exception e1) {
+	public void changeScreen(String nextScreenName) {
+		MyGame.screens.get(getRoot().getName()).dispose();
+		MyGame.screens.remove(getRoot().getName());
+		if (MyGame.screens.get(nextScreenName) == null) {
+			myGame.createScreen(nextScreenName);
+		}
+		myGame.setScreen(MyGame.screens.get(nextScreenName));
+	}
+
+//	public String getAssetsPath() {
+//		return MyAssetUtil.getAssetsPath(getRoot().getName());
+//	}
+
+
+//	public BitmapFont getBitmapFont(String fileName) {
+//		try {
+//			return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
+//		} catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
+//			String filePath = getRoot().getName() + "/fnt/" + fileName + ".fnt";
+//			MyGame.assetManager.load(filePath, BitmapFont.class);
+//			MyGame.assetManager.finishLoadingAsset(filePath);
+//			return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
+//		}
+//	}
+//
+//	public BitmapFont getBitmapFont(TextureAtlas atlas, String fileName) {
+//		return MyAssetUtil.getBitmapFont(atlas, getRoot().getName(), fileName);
+//	}
+//
+//	public Drawable getDrawable(String fileName) {
+//		return new TextureRegionDrawable(getTextureRegion(fileName));
+//	}
+	
+//	public TextureAtlas getTextureAtlas(AssetManager assetManager,String name) {
+//		try {
+//			return MyAssetUtil.getTextureAtlas(assetManager, name, name);
+//		} catch (Exception e1) {// 这里是因为desktop环境时runnable
+//			// jar时读取Gdx.files.internal().list()长度是0一开始根本读不进去，需要专门再用的时候再读取一遍
+//			String filePath = name + "/atlas/" + name + ".atlas";
+//			MyGame.assetManager.load(filePath, TextureAtlas.class);
+//			MyGame.assetManager.finishLoadingAsset(filePath);
+//			return MyAssetUtil.getTextureAtlas(assetManager, name,name);
+//		}
+//	}
+	
+
+	/**
+	 * fileName要带上.png或者.jpg之类的后缀
+	 */
+//	public Texture getTexture(String fileName) {
+//		try {
+//			return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
+//		} catch (Exception e) {// 这里是因为desktop环境时runnable
+//			// jar时读取Gdx.files.internal().list()长度是0一开始根本读不进去，需要专门再用的时候再读取一遍
+//			try {
+//				String filePath = getRoot().getName() + "/texture/" + fileName;
+//				MyGame.assetManager.load(filePath, Texture.class);
+//				MyGame.assetManager.finishLoadingAsset(filePath);
+//				return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
+//			} catch (Exception e1) {
+//				try {
+//					return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
+//				} catch (Exception e2) {
+//					String filePath = "common/texture/" + fileName;
+//					MyGame.assetManager.load(filePath, Texture.class);
+//					MyGame.assetManager.finishLoadingAsset(filePath);
+//					return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
+//				}
+//			}
+//		}
+//	}
+
+//	public TextureRegion getTextureRegion(String fileName) {
+//		try {
+//			return new TextureRegion(getTexture(fileName));
+//		} catch (Exception e) {
+//			if (fileName.contains(".png")) {
+//				fileName = fileName.substring(0, fileName.length() - 4);
+//			}
+//			try {
+//				return getTextureAtlas(MyGame.assetManager,getRoot().getName()).findRegion(fileName);
+//			} catch (Exception e1) {
+//				return getTextureAtlas(MyGame.commonAssets.assetManager,"common").findRegion(fileName);
+//			}
+//		}
+//	}
+
+	/**
+	 * fileName要带上.png或者.jpg之类的后缀
+	 */
+//	public TImage getImage(String fileName) {
+//		if (Gdx.files.getFileHandle(getAssetsPath() + "texture/" + fileName, FileType.Internal).exists()) {
+//			return new TImage(getTexture(fileName));
+//		} else {
+//			if (fileName.contains(".png")) {
+//				fileName = fileName.substring(0, fileName.length() - 4);
+//			}
+//			try {
+//				return new TImage(getTextureAtlas(MyGame.assetManager,getRoot().getName()).findRegion(fileName));
+//			} catch (Exception e) {
+//				return new TImage(getTextureAtlas(MyGame.commonAssets.assetManager,"common").findRegion(fileName));
+//
+//			}
+//		}
+//		
+//		
+//	}
+
+//	public TImage getImage(String fileName, float angle) {
+//		TImage image = getImage(fileName);
+//		image.origonCenter();
+//		image.setRotation(angle);
+//		return image;
+//	}
+
+//	public TImage getImage(String atlasFileName, String textureRegionName) {
+//		try {
+//			return new TImage(getTextureAtlas(MyGame.assetManager,atlasFileName).findRegion(textureRegionName));
+//		} catch (Exception e) {
+//			return new TImage(getTextureAtlas(MyGame.commonAssets.assetManager,atlasFileName).findRegion(textureRegionName));
+//
+//		}
+//	}
+
+	public TImage getImage(Texture texture) {
+		return new TImage(texture);
+	}
+
+	public TImage getImage(NinePatch ninePatch) {
+		return new TImage(ninePatch);
+	}
+
+	public NinePatch getNinePatch(String name, int left, int right, int up, int down) {
 		try {
-		    return MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common")
-			    .findRegion(fileName);
-		} catch (Exception e2) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-		    String filePath = getRoot().getName() + "/atlas/" + getRoot().getName() + ".atlas";
-		    MyGame.assetManager.load(filePath, TextureAtlas.class);
-		    MyGame.assetManager.finishLoadingAsset(filePath);
-		    return getTextureAtlas(getRoot().getName()).findRegion(fileName);
+			return new NinePatch(MyAssetUtil.getTexture(getRoot().getName(),name), left, right, up, down);
+		} catch (Exception e) {
+			return new NinePatch(MyAssetUtil.getTextureRegion(getRoot().getName(),name), left, right, up, down);
 		}
-	    }
-	}
-    }
-
-    /**
-     * fileName要带上.png或者.jpg之类的后缀
-     */
-    public TImage getImage(String fileName) {
-
-	if (Gdx.files.getFileHandle(getAssetsPath() + "texture/" + fileName, FileType.Internal).exists()) {
-	    return new TImage(getTexture(fileName));
-	} else {
-	    if (fileName.contains(".png")) {
-		fileName = fileName.substring(0, fileName.length() - 4);
-	    }
-	    if (Gdx.files.getFileHandle("common/", FileType.Internal).exists()) {
-		return new TImage(MyAssetUtil.getTextureAtlas(MyGame.commonAssets.assetManager, "common", "common")
-			.findRegion(fileName));
-	    } else {
-		//try {
-		//    System.out.println("000000MyScreen.getImage().fileName=" + fileName);
-		    return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
-		//} catch (Exception e) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-		//    System.out.println("222222MyScreen.getImage().fileName=" + fileName);
-		 //   String filePath = getRoot().getName() + "/texture/" + fileName + ".png";
-		  //  if (Gdx.files.getFileHandle(filePath, FileType.Internal).exists()) {
-		//	MyGame.assetManager.load(filePath, TextureAtlas.class);
-		//	MyGame.assetManager.finishLoadingAsset(filePath);
-		//	return new TImage(getTexture(fileName + ".png"));
-		 //   } else {
-		//	filePath = getRoot().getName() + "/atlas/" + getRoot().getName() + ".atlas";
-		//	MyGame.assetManager.load(filePath, TextureAtlas.class);
-		//	MyGame.assetManager.finishLoadingAsset(filePath);
-		//	return new TImage(getTextureAtlas(getRoot().getName()).findRegion(fileName));
-		//    }
-		//}
-	    }
-	}
-    }
-    
-    public TImage getImage(String fileName, float angle) {
-	TImage image = getImage(fileName);
-	image.origonCenter();
-	image.setRotation(angle);
-	return image;
-    }
-
-    public TImage getImage(String atlasFileName, String textureRegionName) {
-	return new TImage(getTextureAtlas(atlasFileName).findRegion(textureRegionName));
-    }
-
-    public TImage getImage(Texture texture) {
-	return new TImage(texture);
-    }
-
-    public TImage getImage(NinePatch ninePatch) {
-	return new TImage(ninePatch);
-    }
-
-    public NinePatch getNinePatch(String name, int left, int right, int up, int down) {
-	try {
-	    return new NinePatch(getTexture(name), left, right, up, down);
-	} catch (Exception e) {
-	    return new NinePatch(getRegion(name), left, right, up, down);
-	}
-    }
-
-    public TImage getNineImage(String name, int left, int right, int up, int down) {
-	return new TImage(getNinePatch(name, left, right, up, down));
-    }
-
-    public Label getFntLabel(String fontName, Object defaultStr) {
-	Label.LabelStyle labelStyle = new Label.LabelStyle(getBitmapFont(fontName), Color.WHITE);
-	Label label = new Label(defaultStr.toString(), labelStyle);
-	return label;
-    }
-
-    public NativeLabel getNativeLabel(CharSequence defaultStr, NativeFont font) {
-	NativeLabel nativeLabel = new NativeLabel(defaultStr, font);
-	nativeLabel.setColor(Color.WHITE);
-	return nativeLabel;
-    }
-
-    public NativeLabel getNativeLabel(Object defaultStr) {
-	NativeLabel nativeLabel = new NativeLabel(defaultStr.toString(), MyGame.getDefaultFont());
-	nativeLabel.setColor(Color.WHITE);
-	return nativeLabel;
-    }
-
-    public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
-	NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
-	TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE, cursor,
-		null, ninePatchDrawable);
-	return new NativeTextField(defaultStr.toString(), style);
-    }
-
-    public NativeTextArea getNativeTextArea(Object defaultStr, Drawable background, Drawable cursor) {
-	TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK, cursor,
-		null, background);
-	return new NativeTextArea(defaultStr.toString(), style);
-    }
-
-    public ScrollPane getVSrollPane(float w, float h, Array<Actor> items) {
-	VerticalGroup verticalGroup = new VerticalGroup();
-	verticalGroup.space(10);
-	for (Actor actor : items) {
-	    verticalGroup.addActor(actor);
-	}
-	ScrollPane scrollPane = new ScrollPane(verticalGroup);
-	scrollPane.setSize(w, h);
-	return scrollPane;
-    }
-
-    private MyCheckBox getNewCheckBox(String backgroundTextureName, String checkTextureName) {
-	try {
-	    return new MyCheckBox(getRegion(backgroundTextureName), getRegion(checkTextureName));
-	} catch (Exception e) {
-	    return new MyCheckBox(getTexture(backgroundTextureName), getTexture(checkTextureName));
-	}
-    }
-
-    public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
-	MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
-	if (iconName != null && iconName.length() != 0) {
-	    checkBox.setIcon(getImage(iconName + ".png"));
-	}
-	return checkBox;
-    }
-
-    public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName,
-	    String checkTextureName) {
-	MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
-	if (iconNamePressed != null && iconNamePressed.length() != 0) {
-	    checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
-	} else {
-	    if (iconNameNormal != null && iconNameNormal.length() != 0) {
-		checkBox.setIcon(getImage(iconNameNormal + ".png"));
-	    }
-	}
-	return checkBox;
-    }
-
-    public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName,
-	    float iconpadding) {
-	MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
-	if (iconName != null && iconName.length() != 0) {
-	    checkBox.setIcon(getImage(iconName + ".png"));
-	}
-	checkBox.setIconpadding(iconpadding);
-	return checkBox;
-    }
-
-    public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName,
-	    String checkTextureName, float iconpadding) {
-	MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
-	if (iconNamePressed != null && iconNamePressed.length() != 0) {
-	    checkBox.setIcon(getImage(iconNameNormal + ".png"), getImage(iconNamePressed + ".png"));
-	} else {
-	    if (iconNameNormal != null && iconNameNormal.length() != 0) {
-		checkBox.setIcon(getImage(iconNameNormal + ".png"));
-	    }
-	}
-	checkBox.setIconpadding(iconpadding);
-	return checkBox;
-    }
-
-    public ScrollPane getVSrollPane(float w, float h, float space, Array<Actor> items) {
-	VerticalGroup verticalGroup = new VerticalGroup();
-	verticalGroup.space(space);
-	for (Actor actor : items) {
-	    verticalGroup.addActor(actor);
-	}
-	ScrollPane scrollPane = new ScrollPane(verticalGroup);
-	scrollPane.setSize(w, h);
-	return scrollPane;
-    }
-
-    public ScrollPane getHSrollPane(float w, float h, Array<Actor> items) {
-	HorizontalGroup verticalGroup = new HorizontalGroup();
-	verticalGroup.space(10);
-	for (Actor actor : items) {
-	    verticalGroup.addActor(actor);
-	}
-	ScrollPane scrollPane = new ScrollPane(verticalGroup);
-	scrollPane.setSize(w, h);
-	return scrollPane;
-    }
-
-    public ScrollPane getHSrollPane(float w, float h, float space, Array<Actor> items) {
-	HorizontalGroup verticalGroup = new HorizontalGroup();
-	verticalGroup.space(space);
-	for (Actor actor : items) {
-	    verticalGroup.addActor(actor);
 	}
 
-	ScrollPane scrollPane = new ScrollPane(verticalGroup);
-	scrollPane.setSize(w, h);
-
-	return scrollPane;
-    }
-
-    /**
-     * fileName要带上.png或者.jpg之类的后缀
-     */
-    public TImage getImage(String fileName, boolean flipX, boolean flipY) {
-	TextureRegion textureRegion = new TextureRegion(getRegion(fileName));
-	textureRegion.flip(flipX, flipY);
-	return new TImage(textureRegion);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-	getViewport().update(width, height, false);
-    }
-
-    @Override
-    public void render(float delta) {
-	Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-	act();
-	draw();
-	if (!MyGame.isLoadingFinish) {
-	    if (MyGame.assetManager.update()) {
-		assign();
-		MyGame.isLoadingFinish = true;
-	    }
+	public TImage getNineImage(String name, int left, int right, int up, int down) {
+		return new TImage(getNinePatch(name, left, right, up, down));
 	}
-    }
 
-    @Override
-    public void dispose() {
-	for (Actor actor : getActors()) {
-	    Class<?>[] interfaces = actor.getClass().getInterfaces();
-	    for (int i = 0, j = interfaces.length; i < j; i++) {
-		if (interfaces[i] == Disposable.class) {
-		    ((Disposable) actor).dispose();
-		    break;
+	public Label getFntLabel(String fontName, Object defaultStr) {
+		Label.LabelStyle labelStyle = new Label.LabelStyle(MyAssetUtil.getBitmapFont(getRoot().getName(),fontName), Color.WHITE);
+		Label label = new Label(defaultStr.toString(), labelStyle);
+		return label;
+	}
+
+	public NativeLabel getNativeLabel(CharSequence defaultStr, NativeFont font) {
+		NativeLabel nativeLabel = new NativeLabel(defaultStr, font);
+		nativeLabel.setColor(Color.WHITE);
+		return nativeLabel;
+	}
+
+	public NativeLabel getNativeLabel(Object defaultStr) {
+		NativeLabel nativeLabel = new NativeLabel(defaultStr.toString(), MyGame.getDefaultFont());
+		nativeLabel.setColor(Color.WHITE);
+		return nativeLabel;
+	}
+
+	public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
+		NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE, cursor,
+				null, ninePatchDrawable);
+		return new NativeTextField(defaultStr.toString(), style);
+	}
+
+	public NativeTextArea getNativeTextArea(Object defaultStr, Drawable background, Drawable cursor) {
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK, cursor,
+				null, background);
+		return new NativeTextArea(defaultStr.toString(), style);
+	}
+
+	public ScrollPane getVSrollPane(float w, float h, Array<Actor> items) {
+		VerticalGroup verticalGroup = new VerticalGroup();
+		verticalGroup.space(10);
+		for (Actor actor : items) {
+			verticalGroup.addActor(actor);
 		}
-	    }
+		ScrollPane scrollPane = new ScrollPane(verticalGroup);
+		scrollPane.setSize(w, h);
+		return scrollPane;
 	}
-	MyGame.assetManager.clear();
-	super.dispose();
-    }
 
-    @Override
-    public void show() {
-    }
+	private MyCheckBox getNewCheckBox(String backgroundTextureName, String checkTextureName) {
+		try {
+			return new MyCheckBox(MyAssetUtil.getTextureRegion(getRoot().getName(),backgroundTextureName), MyAssetUtil.getTextureRegion(getRoot().getName(),checkTextureName));
+		} catch (Exception e) {
+			return new MyCheckBox(MyAssetUtil.getTexture(getRoot().getName(),backgroundTextureName), MyAssetUtil.getTexture(getRoot().getName(),checkTextureName));
+		}
+	}
 
-    @Override
-    public void hide() {
-    }
+	public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
+		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
+		if (iconName != null && iconName.length() != 0) {
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconName + ".png"));
+		}
+		return checkBox;
+	}
 
-    @Override
-    public void pause() {
-    }
+	public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName,
+			String checkTextureName) {
+		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
+		if (iconNamePressed != null && iconNamePressed.length() != 0) {
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"),MyAssetUtil.getTImage(getRoot().getName(),iconNamePressed + ".png"));
+		} else {
+			if (iconNameNormal != null && iconNameNormal.length() != 0) {
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"));
+			}
+		}
+		return checkBox;
+	}
 
-    @Override
-    public void resume() {
-    }
+	public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName,
+			float iconpadding) {
+		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
+		if (iconName != null && iconName.length() != 0) {
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconName + ".png"));
+		}
+		checkBox.setIconpadding(iconpadding);
+		return checkBox;
+	}
+
+	public MyCheckBox getCheckBox(String iconNameNormal, String iconNamePressed, String backgroundTextureName,
+			String checkTextureName, float iconpadding) {
+		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
+		if (iconNamePressed != null && iconNamePressed.length() != 0) {
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"), MyAssetUtil.getTImage(getRoot().getName(),iconNamePressed + ".png"));
+		} else {
+			if (iconNameNormal != null && iconNameNormal.length() != 0) {
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"));
+			}
+		}
+		checkBox.setIconpadding(iconpadding);
+		return checkBox;
+	}
+
+	public ScrollPane getVSrollPane(float w, float h, float space, Array<Actor> items) {
+		VerticalGroup verticalGroup = new VerticalGroup();
+		verticalGroup.space(space);
+		for (Actor actor : items) {
+			verticalGroup.addActor(actor);
+		}
+		ScrollPane scrollPane = new ScrollPane(verticalGroup);
+		scrollPane.setSize(w, h);
+		return scrollPane;
+	}
+
+	public ScrollPane getHSrollPane(float w, float h, Array<Actor> items) {
+		HorizontalGroup verticalGroup = new HorizontalGroup();
+		verticalGroup.space(10);
+		for (Actor actor : items) {
+			verticalGroup.addActor(actor);
+		}
+		ScrollPane scrollPane = new ScrollPane(verticalGroup);
+		scrollPane.setSize(w, h);
+		return scrollPane;
+	}
+
+	public ScrollPane getHSrollPane(float w, float h, float space, Array<Actor> items) {
+		HorizontalGroup verticalGroup = new HorizontalGroup();
+		verticalGroup.space(space);
+		for (Actor actor : items) {
+			verticalGroup.addActor(actor);
+		}
+
+		ScrollPane scrollPane = new ScrollPane(verticalGroup);
+		scrollPane.setSize(w, h);
+
+		return scrollPane;
+	}
+
+	/**
+	 * fileName要带上.png或者.jpg之类的后缀
+	 */
+	public TImage getImage(String fileName, boolean flipX, boolean flipY) {
+		TextureRegion textureRegion = new TextureRegion(MyAssetUtil.getTextureRegion(getRoot().getName(),fileName));
+		textureRegion.flip(flipX, flipY);
+		return new TImage(textureRegion);
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		getViewport().update(width, height, false);
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		act();
+		draw();
+		if (!MyGame.isLoadingFinish) {
+			if (MyGame.assetManager.update()) {
+				assign();
+				MyGame.isLoadingFinish = true;
+			}
+		}
+	}
+
+	@Override
+	public void dispose() {
+		for (Actor actor : getActors()) {
+			Class<?>[] interfaces = actor.getClass().getInterfaces();
+			for (int i = 0, j = interfaces.length; i < j; i++) {
+				if (interfaces[i] == Disposable.class) {
+					((Disposable) actor).dispose();
+					break;
+				}
+			}
+		}
+		MyGame.assetManager.clear();
+		super.dispose();
+	}
+
+	@Override
+	public void show() {
+	}
+
+	@Override
+	public void hide() {
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
 }

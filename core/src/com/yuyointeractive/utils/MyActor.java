@@ -750,28 +750,32 @@ public class MyActor {
     public DiscolorButton(Drawable drawable, Scaling scaling, TouchUpEvent touchUpEvent) {
       this(drawable, scaling, Align.center, touchUpEvent);
     }
-    public DiscolorButton(Drawable drawable, Scaling scaling, int align, TouchUpEvent touchUpEvent) {
-      super(drawable, scaling, align);
-      touchUpEvents=new Array<TouchUpEvent>();
-      touchUpEvents.add(touchUpEvent);
-      this.addListener(new InputListener() {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-          event.getTarget().setColor(0.5f, 0.5f, 0.5f, 1f);
-          return true;
-        }
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-          event.getTarget().setColor(Color.WHITE);
-          if (event.getTarget().hit(x, y, true) == null) {
-            return;
-          }
-          for (int i = 0; i < touchUpEvents.size; i++) {
-	    touchUpEvents.get(i).run(event);
-	 }
-        }
-      });
-    }
+		public DiscolorButton(Drawable drawable, Scaling scaling, int align, TouchUpEvent touchUpEvent) {
+			super(drawable, scaling, align);
+			touchUpEvents = new Array<TouchUpEvent>();
+			touchUpEvents.add(touchUpEvent);
+			this.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					event.getTarget().setColor(0.5f, 0.5f, 0.5f, 1f);
+					Sound btnSound = MyAssetUtil.getSound(getStage().getRoot().getName(), "btnSound");
+					if (btnSound != null && MyGame.isSoundPlay) {
+						btnSound.play(MyGame.soundVolume);
+					}
+					return true;
+				}
+				@Override
+				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+					event.getTarget().setColor(Color.WHITE);
+					if (event.getTarget().hit(x, y, true) == null) {
+						return;
+					}
+					for (int i = 0; i < touchUpEvents.size; i++) {
+						touchUpEvents.get(i).run(event);
+					}
+				}
+			});
+		}
     public void addTouchUpEvent(TouchUpEvent touchUpEvent) {
 	touchUpEvents.add(touchUpEvent);
     }
