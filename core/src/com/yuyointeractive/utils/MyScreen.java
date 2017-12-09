@@ -300,7 +300,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconName != null && iconName.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName));
 		}
 		return checkBox;
 	}
@@ -309,11 +309,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			String checkTextureName) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconNamePressed != null && iconNamePressed.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"),
-					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal),
+					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed));
 		} else {
 			if (iconNameNormal != null && iconNameNormal.length() != 0) {
-				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"));
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal));
 			}
 		}
 		return checkBox;
@@ -323,7 +323,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			float iconpadding) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconName != null && iconName.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName));
 		}
 		checkBox.setIconpadding(iconpadding);
 		return checkBox;
@@ -333,11 +333,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			String checkTextureName, float iconpadding) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconNamePressed != null && iconNamePressed.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"),
-					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal),
+					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed));
 		} else {
 			if (iconNameNormal != null && iconNameNormal.length() != 0) {
-				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"));
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal));
 			}
 		}
 		checkBox.setIconpadding(iconpadding);
@@ -382,6 +382,12 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public TImage getImage(String fileName, boolean flipX, boolean flipY) {
 		TextureRegion textureRegion = new TextureRegion(MyAssetUtil.getTextureRegion(getRoot().getName(), fileName));
+		textureRegion.flip(flipX, flipY);
+		return new TImage(textureRegion);
+	}
+
+	public TImage getImage(TextureAtlas atlas, String fileName, boolean flipX, boolean flipY) {
+		TextureRegion textureRegion = new TextureRegion(atlas.findRegion(fileName));
 		textureRegion.flip(flipX, flipY);
 		return new TImage(textureRegion);
 	}
