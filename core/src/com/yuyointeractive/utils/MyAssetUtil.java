@@ -74,24 +74,32 @@ public class MyAssetUtil {
 	}
 
 	public static <T> T getAsset(String assetsPath, String fileName, Class<T> type) {
+		System.out.println("MyAssetUtil.getAsset().type.getClass().getSimpleName()="+type.getClass().getSimpleName());
 		switch (type.getClass().getSimpleName()) {
 		case "TextureAtlas":
 			fileName = "atlas/" + fileName + ".atlas";
+			System.out.println("aaaaaaaaaa");
 			break;
 		case "BitmapFont":
 			fileName = "fnt/" + fileName + ".fnt";
+			System.out.println("bbbbbbbbbbb");
 			break;
 		case "Texture":
 			fileName = "texture/" + fileName + ".png";
+			System.out.println("cccccccc");
 			break;
 		case "Sound":
 			fileName = "sound/" + fileName + ".mp3";
+			System.out.println("ddddddddddddd");
 			break;
 		case "Music":
 			fileName = "music/" + fileName + ".mp3";
+			System.out.println("eeeeeeeeeeeeeee");
 			break;
 		}
 		assetsPath = getAssetsPath(assetsPath) + fileName;
+		
+		System.out.println("MyAssetUtil.getAsset().assetsPath="+assetsPath);
 		if (Gdx.files.getFileHandle(assetsPath, FileType.Internal).exists()) {
 			if (MyGame.assetManager.isLoaded(assetsPath, type)) {
 				return MyGame.assetManager.get(assetsPath, type);
@@ -102,7 +110,7 @@ public class MyAssetUtil {
 			}
 		} else {
 			assetsPath = getAssetsPath("common") + fileName;
-			if (MyGame.commonAssets.assetManager.isLoaded(assetsPath, Music.class)) {
+			if (MyGame.commonAssets.assetManager.isLoaded(assetsPath, type)) {
 				return MyGame.commonAssets.assetManager.get(assetsPath, type);
 			} else {
 				MyGame.commonAssets.assetManager.load(assetsPath, type);
