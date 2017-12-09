@@ -1,5 +1,6 @@
 package com.yuyointeractive.view;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -417,7 +418,10 @@ public class TImage extends Image {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 event.getListenerActor().setColor(0.5f, 0.5f, 0.5f, 1f);
-                //MyAssetUtil.playSound(MyGame.assetManager, "start", "ui_click", MyGame.soundVolume);
+            	Sound btnSound = MyAssetUtil.getSound(getStage().getRoot().getName(), "btnSound");
+				if (btnSound != null && MyGame.isSoundPlay) {
+					btnSound.play(MyGame.soundVolume);
+				}
                 return true;
             }
 

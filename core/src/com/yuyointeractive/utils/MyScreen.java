@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -163,6 +164,10 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 
 	public TImage getImage(String atlasFileName, String textureFileName) {
 		return MyAssetUtil.getTImage(getName(), atlasFileName, textureFileName);
+	}
+	
+	public TImage getImage(TextureAtlas atlas, String textureFileName) {
+		return new TImage(atlas.findRegion(textureFileName));
 	}
 
 	public TImage getImage(Texture texture) {

@@ -98,6 +98,7 @@ public class MyAssetUtil {
 	public static void playMusic(String assetsPath, String mp3FileName) {
 		if (MyGame.isMusicPlay) {
 			Music music = getMusic(assetsPath, mp3FileName);
+			music.setVolume(MyGame.musicVolume);
 			music.setLooping(true);
 			music.play();
 		}
