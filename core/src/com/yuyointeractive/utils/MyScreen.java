@@ -98,120 +98,56 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		myGame.setScreen(MyGame.screens.get(nextScreenName));
 	}
 
-//	public String getAssetsPath() {
-//		return MyAssetUtil.getAssetsPath(getRoot().getName());
-//	}
+	// public String getAssetsPath() {
+	// return MyAssetUtil.getAssetsPath(getRoot().getName());
+	// }
 
+	public BitmapFont getBitmapFont(String fntFileName) {
+		return MyAssetUtil.getBitmapFont(getName(), fntFileName);
+	}
 
-//	public BitmapFont getBitmapFont(String fileName) {
-//		try {
-//			return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
-//		} catch (Exception e1) {// 这里是因为runnable jar时读取Gdx.files.internal().list()是0专门写的
-//			String filePath = getRoot().getName() + "/fnt/" + fileName + ".fnt";
-//			MyGame.assetManager.load(filePath, BitmapFont.class);
-//			MyGame.assetManager.finishLoadingAsset(filePath);
-//			return MyAssetUtil.getBitmapFont(MyGame.assetManager, getRoot().getName(), fileName);
-//		}
-//	}
-//
-//	public BitmapFont getBitmapFont(TextureAtlas atlas, String fileName) {
-//		return MyAssetUtil.getBitmapFont(atlas, getRoot().getName(), fileName);
-//	}
-//
-//	public Drawable getDrawable(String fileName) {
-//		return new TextureRegionDrawable(getTextureRegion(fileName));
-//	}
-	
-//	public TextureAtlas getTextureAtlas(AssetManager assetManager,String name) {
-//		try {
-//			return MyAssetUtil.getTextureAtlas(assetManager, name, name);
-//		} catch (Exception e1) {// 这里是因为desktop环境时runnable
-//			// jar时读取Gdx.files.internal().list()长度是0一开始根本读不进去，需要专门再用的时候再读取一遍
-//			String filePath = name + "/atlas/" + name + ".atlas";
-//			MyGame.assetManager.load(filePath, TextureAtlas.class);
-//			MyGame.assetManager.finishLoadingAsset(filePath);
-//			return MyAssetUtil.getTextureAtlas(assetManager, name,name);
-//		}
-//	}
-	
+	public BitmapFont getBitmapFont(TextureAtlas atlas, String fileName) {
+		return MyAssetUtil.getBitmapFont(atlas, getRoot().getName(), fileName);
+	}
+
+	public Drawable getDrawable(String textureFileName) {
+		return MyAssetUtil.getDrawable(getName(), textureFileName);
+	}
+
+	public TextureAtlas getTextureAtlas() {
+		return MyAssetUtil.getTextureAtlas(getName());
+	}
+
+	public TextureAtlas getTextureAtlas(String atlasFileName) {
+		return MyAssetUtil.getTextureAtlas(getName(), atlasFileName);
+	}
 
 	/**
 	 * fileName要带上.png或者.jpg之类的后缀
 	 */
-//	public Texture getTexture(String fileName) {
-//		try {
-//			return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
-//		} catch (Exception e) {// 这里是因为desktop环境时runnable
-//			// jar时读取Gdx.files.internal().list()长度是0一开始根本读不进去，需要专门再用的时候再读取一遍
-//			try {
-//				String filePath = getRoot().getName() + "/texture/" + fileName;
-//				MyGame.assetManager.load(filePath, Texture.class);
-//				MyGame.assetManager.finishLoadingAsset(filePath);
-//				return MyAssetUtil.getTexture(MyGame.assetManager, getRoot().getName(), fileName);
-//			} catch (Exception e1) {
-//				try {
-//					return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
-//				} catch (Exception e2) {
-//					String filePath = "common/texture/" + fileName;
-//					MyGame.assetManager.load(filePath, Texture.class);
-//					MyGame.assetManager.finishLoadingAsset(filePath);
-//					return MyAssetUtil.getTexture(MyGame.commonAssets.assetManager, "common", fileName);
-//				}
-//			}
-//		}
-//	}
+	public Texture getTexture(String textureFileName) {
+		return MyAssetUtil.getTexture(getName(), textureFileName);
+	}
 
-//	public TextureRegion getTextureRegion(String fileName) {
-//		try {
-//			return new TextureRegion(getTexture(fileName));
-//		} catch (Exception e) {
-//			if (fileName.contains(".png")) {
-//				fileName = fileName.substring(0, fileName.length() - 4);
-//			}
-//			try {
-//				return getTextureAtlas(MyGame.assetManager,getRoot().getName()).findRegion(fileName);
-//			} catch (Exception e1) {
-//				return getTextureAtlas(MyGame.commonAssets.assetManager,"common").findRegion(fileName);
-//			}
-//		}
-//	}
+	public TextureRegion getTextureRegion(String textureFileName) {
+		return MyAssetUtil.getTextureRegion(getName(), textureFileName);
+	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
-//	public TImage getImage(String fileName) {
-//		if (Gdx.files.getFileHandle(getAssetsPath() + "texture/" + fileName, FileType.Internal).exists()) {
-//			return new TImage(getTexture(fileName));
-//		} else {
-//			if (fileName.contains(".png")) {
-//				fileName = fileName.substring(0, fileName.length() - 4);
-//			}
-//			try {
-//				return new TImage(getTextureAtlas(MyGame.assetManager,getRoot().getName()).findRegion(fileName));
-//			} catch (Exception e) {
-//				return new TImage(getTextureAtlas(MyGame.commonAssets.assetManager,"common").findRegion(fileName));
-//
-//			}
-//		}
-//		
-//		
-//	}
+	/** fileName要带上.png或者.jpg之类的后缀 */
+	public TImage getImage(String textureFileName) {
+		return MyAssetUtil.getTImage(getName(), textureFileName);
+	}
 
-//	public TImage getImage(String fileName, float angle) {
-//		TImage image = getImage(fileName);
-//		image.origonCenter();
-//		image.setRotation(angle);
-//		return image;
-//	}
+	public TImage getImage(String textureFileName, float angle) {
+		TImage image = getImage(textureFileName);
+		image.origonCenter();
+		image.setRotation(angle);
+		return image;
+	}
 
-//	public TImage getImage(String atlasFileName, String textureRegionName) {
-//		try {
-//			return new TImage(getTextureAtlas(MyGame.assetManager,atlasFileName).findRegion(textureRegionName));
-//		} catch (Exception e) {
-//			return new TImage(getTextureAtlas(MyGame.commonAssets.assetManager,atlasFileName).findRegion(textureRegionName));
-//
-//		}
-//	}
+	public TImage getImage(String atlasFileName, String textureFileName) {
+		return MyAssetUtil.getTImage(getName(), atlasFileName, textureFileName);
+	}
 
 	public TImage getImage(Texture texture) {
 		return new TImage(texture);
@@ -223,9 +159,9 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 
 	public NinePatch getNinePatch(String name, int left, int right, int up, int down) {
 		try {
-			return new NinePatch(MyAssetUtil.getTexture(getRoot().getName(),name), left, right, up, down);
+			return new NinePatch(MyAssetUtil.getTexture(getRoot().getName(), name), left, right, up, down);
 		} catch (Exception e) {
-			return new NinePatch(MyAssetUtil.getTextureRegion(getRoot().getName(),name), left, right, up, down);
+			return new NinePatch(MyAssetUtil.getTextureRegion(getRoot().getName(), name), left, right, up, down);
 		}
 	}
 
@@ -234,7 +170,8 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	}
 
 	public Label getFntLabel(String fontName, Object defaultStr) {
-		Label.LabelStyle labelStyle = new Label.LabelStyle(MyAssetUtil.getBitmapFont(getRoot().getName(),fontName), Color.WHITE);
+		Label.LabelStyle labelStyle = new Label.LabelStyle(MyAssetUtil.getBitmapFont(getRoot().getName(), fontName),
+				Color.WHITE);
 		Label label = new Label(defaultStr.toString(), labelStyle);
 		return label;
 	}
@@ -277,16 +214,18 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 
 	private MyCheckBox getNewCheckBox(String backgroundTextureName, String checkTextureName) {
 		try {
-			return new MyCheckBox(MyAssetUtil.getTextureRegion(getRoot().getName(),backgroundTextureName), MyAssetUtil.getTextureRegion(getRoot().getName(),checkTextureName));
+			return new MyCheckBox(MyAssetUtil.getTextureRegion(getRoot().getName(), backgroundTextureName),
+					MyAssetUtil.getTextureRegion(getRoot().getName(), checkTextureName));
 		} catch (Exception e) {
-			return new MyCheckBox(MyAssetUtil.getTexture(getRoot().getName(),backgroundTextureName), MyAssetUtil.getTexture(getRoot().getName(),checkTextureName));
+			return new MyCheckBox(MyAssetUtil.getTexture(getRoot().getName(), backgroundTextureName),
+					MyAssetUtil.getTexture(getRoot().getName(), checkTextureName));
 		}
 	}
 
 	public MyCheckBox getCheckBox(String iconName, String backgroundTextureName, String checkTextureName) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconName != null && iconName.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconName + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName + ".png"));
 		}
 		return checkBox;
 	}
@@ -295,10 +234,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			String checkTextureName) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconNamePressed != null && iconNamePressed.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"),MyAssetUtil.getTImage(getRoot().getName(),iconNamePressed + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"),
+					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed + ".png"));
 		} else {
 			if (iconNameNormal != null && iconNameNormal.length() != 0) {
-				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"));
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"));
 			}
 		}
 		return checkBox;
@@ -308,7 +248,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			float iconpadding) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconName != null && iconName.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconName + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconName + ".png"));
 		}
 		checkBox.setIconpadding(iconpadding);
 		return checkBox;
@@ -318,10 +258,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 			String checkTextureName, float iconpadding) {
 		MyCheckBox checkBox = getNewCheckBox(backgroundTextureName, checkTextureName);
 		if (iconNamePressed != null && iconNamePressed.length() != 0) {
-			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"), MyAssetUtil.getTImage(getRoot().getName(),iconNamePressed + ".png"));
+			checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"),
+					MyAssetUtil.getTImage(getRoot().getName(), iconNamePressed + ".png"));
 		} else {
 			if (iconNameNormal != null && iconNameNormal.length() != 0) {
-				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(),iconNameNormal + ".png"));
+				checkBox.setIcon(MyAssetUtil.getTImage(getRoot().getName(), iconNameNormal + ".png"));
 			}
 		}
 		checkBox.setIconpadding(iconpadding);
@@ -367,7 +308,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	 * fileName要带上.png或者.jpg之类的后缀
 	 */
 	public TImage getImage(String fileName, boolean flipX, boolean flipY) {
-		TextureRegion textureRegion = new TextureRegion(MyAssetUtil.getTextureRegion(getRoot().getName(),fileName));
+		TextureRegion textureRegion = new TextureRegion(MyAssetUtil.getTextureRegion(getRoot().getName(), fileName));
 		textureRegion.flip(flipX, flipY);
 		return new TImage(textureRegion);
 	}

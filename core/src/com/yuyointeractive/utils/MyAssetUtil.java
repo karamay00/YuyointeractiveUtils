@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.yuyointeractive.view.TImage;
 
 public class MyAssetUtil {
@@ -205,6 +207,7 @@ public class MyAssetUtil {
 		return getAsset(assetsPath, textureFileName, Texture.class);
 	}
 
+	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
 		try {
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
@@ -216,23 +219,22 @@ public class MyAssetUtil {
 		}
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** fileName要带上.png或者.jpg之类的后缀 */
+	public static Drawable getDrawable(String assetsPath, String textureFileName) {
+		return new TextureRegionDrawable(getTextureRegion(assetsPath, textureFileName));
+	}
+
+	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static Image getImage(String assetsPath, String textureFileName) {
 		return new Image(getTextureRegion(assetsPath, textureFileName));
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static TImage getTImage(String assetsPath, String textureFileName) {
 		return new TImage(getTextureRegion(assetsPath, textureFileName));
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static Image getImage(String assetsPath, String atlasFileName, String textureFileName) {
 		if (textureFileName.contains(".png")) {
 			textureFileName = textureFileName.substring(0, textureFileName.length() - 4);
@@ -240,9 +242,7 @@ public class MyAssetUtil {
 		return new Image(getTextureAtlas(assetsPath, atlasFileName).findRegion(textureFileName));
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static TImage getTImage(String assetsPath, String atlasFileName, String textureFileName) {
 		if (textureFileName.contains(".png")) {
 			textureFileName = textureFileName.substring(0, textureFileName.length() - 4);
