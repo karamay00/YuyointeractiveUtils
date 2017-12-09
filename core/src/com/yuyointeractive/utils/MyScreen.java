@@ -122,6 +122,22 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		return MyAssetUtil.getTextureAtlas(getName(), atlasFileName);
 	}
 
+	public void playSound(String mp3FileName) {
+		MyAssetUtil.playSound(getName(), mp3FileName);
+	}
+
+	public Sound getSound(String mp3FileName) {
+		return MyAssetUtil.getSound(getName(), mp3FileName);
+	}
+
+	public void playMusic(String mp3FileName) {
+		MyAssetUtil.playMusic(getName(), mp3FileName);
+	}
+
+	public Music getMusic(String mp3FileName) {
+		return MyAssetUtil.getMusic(getName(), mp3FileName);
+	}
+
 	/**
 	 * fileName要带上.png或者.jpg之类的后缀
 	 */
