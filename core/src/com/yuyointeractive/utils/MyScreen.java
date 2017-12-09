@@ -165,7 +165,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	public TImage getImage(String atlasFileName, String textureFileName) {
 		return MyAssetUtil.getTImage(getName(), atlasFileName, textureFileName);
 	}
-	
+
 	public TImage getImage(TextureAtlas atlas, String textureFileName) {
 		return new TImage(atlas.findRegion(textureFileName));
 	}
@@ -231,6 +231,56 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		ScrollPane scrollPane = new ScrollPane(verticalGroup);
 		scrollPane.setSize(w, h);
 		return scrollPane;
+	}
+
+	private MyCheckBox getNewCheckBox(TextureAtlas atlas, String backgroundTextureName, String checkTextureName) {
+		return new MyCheckBox(atlas.findRegion(backgroundTextureName), atlas.findRegion(checkTextureName));
+	}
+
+	public MyCheckBox getCheckBox(TextureAtlas atlas, String iconName, String backgroundTextureName,
+			String checkTextureName) {
+		MyCheckBox checkBox = getNewCheckBox(atlas, backgroundTextureName, checkTextureName);
+		if (iconName != null && iconName.length() != 0) {
+			checkBox.setIcon(getImage(atlas, iconName));
+		}
+		return checkBox;
+	}
+
+	public MyCheckBox getCheckBox(TextureAtlas atlas, String iconNameNormal, String iconNamePressed,
+			String backgroundTextureName, String checkTextureName) {
+		MyCheckBox checkBox = getNewCheckBox(atlas, backgroundTextureName, checkTextureName);
+		if (iconNamePressed != null && iconNamePressed.length() != 0) {
+			checkBox.setIcon(getImage(atlas, iconNameNormal), getImage(atlas, iconNamePressed));
+		} else {
+			if (iconNameNormal != null && iconNameNormal.length() != 0) {
+				checkBox.setIcon(getImage(atlas, iconNameNormal));
+			}
+		}
+		return checkBox;
+	}
+
+	public MyCheckBox getCheckBox(TextureAtlas atlas, String iconName, String backgroundTextureName,
+			String checkTextureName, float iconpadding) {
+		MyCheckBox checkBox = getNewCheckBox(atlas, backgroundTextureName, checkTextureName);
+		if (iconName != null && iconName.length() != 0) {
+			checkBox.setIcon(getImage(atlas, iconName));
+		}
+		checkBox.setIconpadding(iconpadding);
+		return checkBox;
+	}
+
+	public MyCheckBox getCheckBox(TextureAtlas atlas, String iconNameNormal, String iconNamePressed,
+			String backgroundTextureName, String checkTextureName, float iconpadding) {
+		MyCheckBox checkBox = getNewCheckBox(atlas, backgroundTextureName, checkTextureName);
+		if (iconNamePressed != null && iconNamePressed.length() != 0) {
+			checkBox.setIcon(getImage(atlas, iconNameNormal), getImage(atlas, iconNamePressed));
+		} else {
+			if (iconNameNormal != null && iconNameNormal.length() != 0) {
+				checkBox.setIcon(getImage(atlas, iconNameNormal));
+			}
+		}
+		checkBox.setIconpadding(iconpadding);
+		return checkBox;
 	}
 
 	private MyCheckBox getNewCheckBox(String backgroundTextureName, String checkTextureName) {
