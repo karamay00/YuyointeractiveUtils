@@ -74,32 +74,7 @@ public class MyAssetUtil {
 	}
 
 	public static <T> T getAsset(String assetsPath, String fileName, Class<T> type) {
-		System.out.println("MyAssetUtil.getAsset().type.getClass().getSimpleName()="+type.getClass().getSimpleName());
-		switch (type.getClass().getSimpleName()) {
-		case "TextureAtlas":
-			fileName = "atlas/" + fileName + ".atlas";
-			System.out.println("aaaaaaaaaa");
-			break;
-		case "BitmapFont":
-			fileName = "fnt/" + fileName + ".fnt";
-			System.out.println("bbbbbbbbbbb");
-			break;
-		case "Texture":
-			fileName = "texture/" + fileName + ".png";
-			System.out.println("cccccccc");
-			break;
-		case "Sound":
-			fileName = "sound/" + fileName + ".mp3";
-			System.out.println("ddddddddddddd");
-			break;
-		case "Music":
-			fileName = "music/" + fileName + ".mp3";
-			System.out.println("eeeeeeeeeeeeeee");
-			break;
-		}
 		assetsPath = getAssetsPath(assetsPath) + fileName;
-		
-		System.out.println("MyAssetUtil.getAsset().assetsPath="+assetsPath);
 		if (Gdx.files.getFileHandle(assetsPath, FileType.Internal).exists()) {
 			if (MyGame.assetManager.isLoaded(assetsPath, type)) {
 				return MyGame.assetManager.get(assetsPath, type);
@@ -138,7 +113,7 @@ public class MyAssetUtil {
 	}
 
 	public static Sound getSound(String assetsPath, String mp3FileName) {
-		return getAsset(assetsPath, mp3FileName, Sound.class);
+		return getAsset(assetsPath, "sound/" + mp3FileName + ".mp3", Sound.class);
 	}
 
 	public static void playSound(String assetsPath, String mp3FileName) {
@@ -190,19 +165,19 @@ public class MyAssetUtil {
 	}
 
 	public static Music getMusic(String assetsPath, String mp3FileName) {
-		return getAsset(assetsPath, mp3FileName, Music.class);
+		return getAsset(assetsPath, "music/" + mp3FileName + ".mp3", Music.class);
 	}
 
 	public static TextureAtlas getTextureAtlas(String assetsPath, String atlasFileName) {
-		return getAsset(assetsPath, atlasFileName, TextureAtlas.class);
+		return getAsset(assetsPath, "atlas/" + atlasFileName + ".atlas", TextureAtlas.class);
 	}
 
 	public static TextureAtlas getTextureAtlas(String assetsPath) {
-		return getAsset(assetsPath, assetsPath, TextureAtlas.class);
+		return getAsset(assetsPath, "atlas/" + assetsPath + ".atlas", TextureAtlas.class);
 	}
 
 	public static BitmapFont getBitmapFont(String assetsPath, String fntFileName) {
-		return getAsset(assetsPath, fntFileName, BitmapFont.class);
+		return getAsset(assetsPath, "fnt/" + fntFileName + ".fnt", BitmapFont.class);
 	}
 
 	public static BitmapFont getBitmapFont(TextureAtlas atlas, String assetsPath, String fntFileName) {
@@ -212,7 +187,7 @@ public class MyAssetUtil {
 
 	/** fileName要带上.png或者.jpg之类的后缀 */
 	public static Texture getTexture(String assetsPath, String textureFileName) {
-		return getAsset(assetsPath, textureFileName, Texture.class);
+		return getAsset(assetsPath, "texture/" + textureFileName, Texture.class);
 	}
 
 	/** fileName要带上.png或者.jpg之类的后缀 */
