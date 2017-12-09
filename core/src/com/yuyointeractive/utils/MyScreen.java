@@ -139,22 +139,22 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		return MyAssetUtil.getMusic(getName(), mp3FileName);
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public Texture getTexture(String textureFileName) {
 		return MyAssetUtil.getTexture(getName(), textureFileName);
 	}
 
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public TextureRegion getTextureRegion(String textureFileName) {
 		return MyAssetUtil.getTextureRegion(getName(), textureFileName);
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public TImage getImage(String textureFileName) {
 		return MyAssetUtil.getTImage(getName(), textureFileName);
 	}
 
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public TImage getImage(String textureFileName, float angle) {
 		TImage image = getImage(textureFileName);
 		image.origonCenter();
@@ -379,9 +379,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		return scrollPane;
 	}
 
-	/**
-	 * fileName要带上.png或者.jpg之类的后缀
-	 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public TImage getImage(String fileName, boolean flipX, boolean flipY) {
 		TextureRegion textureRegion = new TextureRegion(MyAssetUtil.getTextureRegion(getRoot().getName(), fileName));
 		textureRegion.flip(flipX, flipY);

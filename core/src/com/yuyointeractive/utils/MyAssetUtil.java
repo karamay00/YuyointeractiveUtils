@@ -44,13 +44,15 @@ public class MyAssetUtil {
 		if (MyGame.isPreloadSound) {
 			for (FileHandle file : Gdx.files.internal(assetsPath + "sound/").list()) {
 				if (Gdx.app.getType() == ApplicationType.Desktop) {
-					if (file.extension().matches("mp3") || file.extension().matches("ogg")
-							|| file.extension().matches("wav")) {
+					// ogg和wav等其他音效格式先不做读取
+					// ||file.extension().matches("ogg")||file.extension().matches("wav"))
+					if (file.extension().matches("mp3")) {
 						assetManager.load("" + file, Sound.class);
 					}
 				} else {
 					assetManager.load("" + file, Sound.class);
 				}
+
 			}
 		}
 		for (FileHandle file : Gdx.files.internal(assetsPath + "music/").list()) {
@@ -186,51 +188,46 @@ public class MyAssetUtil {
 				atlas.findRegion(fntFileName));
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static Texture getTexture(String assetsPath, String textureFileName) {
-		return getAsset(assetsPath, "texture/" + textureFileName, Texture.class);
+		if (textureFileName.contains(".")) {
+			return getAsset(assetsPath, "texture/" + textureFileName, Texture.class);
+		} else {
+			return getAsset(assetsPath, "texture/" + textureFileName + ".png", Texture.class);
+		}
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
 		try {
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		} catch (Exception e) {
-			if (textureFileName.contains(".png")) {
-				textureFileName = textureFileName.substring(0, textureFileName.length() - 4);
-			}
 			return getTextureAtlas(assetsPath).findRegion(textureFileName);
 		}
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static Drawable getDrawable(String assetsPath, String textureFileName) {
 		return new TextureRegionDrawable(getTextureRegion(assetsPath, textureFileName));
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static Image getImage(String assetsPath, String textureFileName) {
 		return new Image(getTextureRegion(assetsPath, textureFileName));
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TImage getTImage(String assetsPath, String textureFileName) {
 		return new TImage(getTextureRegion(assetsPath, textureFileName));
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static Image getImage(String assetsPath, String atlasFileName, String textureFileName) {
-		if (textureFileName.contains(".png")) {
-			textureFileName = textureFileName.substring(0, textureFileName.length() - 4);
-		}
 		return new Image(getTextureAtlas(assetsPath, atlasFileName).findRegion(textureFileName));
 	}
 
-	/** fileName要带上.png或者.jpg之类的后缀 */
+	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TImage getTImage(String assetsPath, String atlasFileName, String textureFileName) {
-		if (textureFileName.contains(".png")) {
-			textureFileName = textureFileName.substring(0, textureFileName.length() - 4);
-		}
 		return new TImage(getTextureAtlas(assetsPath, atlasFileName).findRegion(textureFileName));
 	}
 }
