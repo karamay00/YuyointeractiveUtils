@@ -203,12 +203,12 @@ public class MyAssetUtil {
 				"MyAssetUtil.getTextureRegion()getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(\".\") ? \"\" : \".png\")="
 						+ getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"));
 		if (Gdx.files.getFileHandle(
-				getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
+				getAssetsPath(assetsPath) + "texture/"+textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
 			System.out.println("111111111111111111");
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		} else if (Gdx.files.getFileHandle(
-				getAssetsPath("common") + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
+				getAssetsPath("common")+ "texture/" + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
 			System.out.println("2222222222222222222");
 			return new TextureRegion(getTexture("common", textureFileName));
