@@ -179,11 +179,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	}
 
 	public NinePatch getNinePatch(String name, int left, int right, int up, int down) {
-		try {
-			return new NinePatch(MyAssetUtil.getTexture(getRoot().getName(), name), left, right, up, down);
-		} catch (Exception e) {
-			return new NinePatch(MyAssetUtil.getTextureAtlas(getRoot().getName()).findRegion(name), left, right, up, down);
-		}
+		return new NinePatch(MyAssetUtil.getTextureRegion(getRoot().getName(), name), left, right, up, down);
 	}
 
 	public TImage getNineImage(String name, int left, int right, int up, int down) {
