@@ -199,19 +199,26 @@ public class MyAssetUtil {
 
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
+		System.out.println(
+				"MyAssetUtil.getTextureRegion()getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(\".\") ? \"\" : \".png\")="
+						+ getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"));
 		if (Gdx.files.getFileHandle(
 				getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
+			System.out.println("111111111111111111");
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		} else if (Gdx.files.getFileHandle(
 				getAssetsPath("common") + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
+			System.out.println("2222222222222222222");
 			return new TextureRegion(getTexture("common", textureFileName));
 		} else {
 			TextureRegion textureRegion = getTextureAtlas(assetsPath).findRegion(textureFileName);
 			if (textureRegion != null) {
+				System.out.println("3333333333333333");
 				return textureRegion;
 			} else {
+				System.out.println("4444444444444444444");
 				return getTextureAtlas("common").findRegion(textureFileName);
 			}
 		}
