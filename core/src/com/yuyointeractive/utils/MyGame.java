@@ -105,6 +105,7 @@ public abstract class MyGame extends Game {
 	super.dispose();
 
 	if (commonAssets != null) {
+		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMyGame.dispose()");
 	    commonAssets.dispose();
 	}
 	assetManager.dispose();

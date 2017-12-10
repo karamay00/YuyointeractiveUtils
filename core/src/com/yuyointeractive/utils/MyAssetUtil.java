@@ -75,30 +75,25 @@ public class MyAssetUtil {
 		}
 	}
 
-	public static <T> T getAsset(String assetsPath, String fileName, Class<T> type) {
-		assetsPath = getAssetsPath(assetsPath) + fileName;
-		if (Gdx.files.getFileHandle(assetsPath, FileType.Internal).exists()) {
-			System.out.println("0000000000"+fileName);
-			if (MyGame.assetManager.isLoaded(assetsPath, type)) {
-				System.out.println("111111111111"+fileName);
-				return MyGame.assetManager.get(assetsPath, type);
+	public static <T> T getAsset(String assetsPat, String fileName, Class<T> type) {
+		if (assetsPat.equals("common")
+				|| Gdx.files.getFileHandle(getAssetsPath("common") + fileName, FileType.Internal).exists()) {
+			fileName = getAssetsPath("common") + fileName;
+			if (MyGame.commonAssets.assetManager.isLoaded(fileName, type)) {
+				return MyGame.commonAssets.assetManager.get(fileName, type);
 			} else {
-				System.out.println("222222222222"+fileName);
-				MyGame.assetManager.load(assetsPath, type);
-				MyGame.assetManager.finishLoadingAsset(assetsPath);
-				return MyGame.assetManager.get(assetsPath, type);
+				MyGame.commonAssets.assetManager.load(fileName, type);
+				MyGame.commonAssets.assetManager.finishLoadingAsset(fileName);
+				return MyGame.commonAssets.assetManager.get(fileName, type);
 			}
 		} else {
-			System.out.println("333333333333"+fileName);
-			assetsPath = getAssetsPath("common") + fileName;
-			if (MyGame.commonAssets.assetManager.isLoaded(assetsPath, type)) {
-				System.out.println("444444444444"+fileName);
-				return MyGame.commonAssets.assetManager.get(assetsPath, type);
+			fileName = getAssetsPath(assetsPat) + fileName;
+			if (MyGame.assetManager.isLoaded(fileName, type)) {
+				return MyGame.assetManager.get(fileName, type);
 			} else {
-				System.out.println("555555555555"+fileName);
-				MyGame.commonAssets.assetManager.load(assetsPath, type);
-				MyGame.commonAssets.assetManager.finishLoadingAsset(assetsPath);
-				return MyGame.commonAssets.assetManager.get(assetsPath, type);
+				MyGame.assetManager.load(fileName, type);
+				MyGame.assetManager.finishLoadingAsset(fileName);
+				return MyGame.assetManager.get(fileName, type);
 			}
 		}
 	}
@@ -205,15 +200,11 @@ public class MyAssetUtil {
 
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
-		System.out.println(
-				"MyAssetUtil.getTextureRegion()getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(\".\") ? \"\" : \".png\")="
-						+ getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"));
-		if (Gdx.files.getFileHandle(
-				getAssetsPath(assetsPath) + "texture/"+textureFileName + (textureFileName.contains(".") ? "" : ".png"),
-				FileType.Internal).exists()) {
+		if (Gdx.files.getFileHandle(getAssetsPath(assetsPath) + "texture/" + textureFileName
+				+ (textureFileName.contains(".") ? "" : ".png"), FileType.Internal).exists()) {
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		} else if (Gdx.files.getFileHandle(
-				getAssetsPath("common")+ "texture/" + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
+				getAssetsPath("common") + "texture/" + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
 			return new TextureRegion(getTexture("common", textureFileName));
 		} else {
