@@ -78,18 +78,24 @@ public class MyAssetUtil {
 	public static <T> T getAsset(String assetsPath, String fileName, Class<T> type) {
 		assetsPath = getAssetsPath(assetsPath) + fileName;
 		if (Gdx.files.getFileHandle(assetsPath, FileType.Internal).exists()) {
+			System.out.println("0000000000"+fileName);
 			if (MyGame.assetManager.isLoaded(assetsPath, type)) {
+				System.out.println("111111111111"+fileName);
 				return MyGame.assetManager.get(assetsPath, type);
 			} else {
+				System.out.println("222222222222"+fileName);
 				MyGame.assetManager.load(assetsPath, type);
 				MyGame.assetManager.finishLoadingAsset(assetsPath);
 				return MyGame.assetManager.get(assetsPath, type);
 			}
 		} else {
+			System.out.println("333333333333"+fileName);
 			assetsPath = getAssetsPath("common") + fileName;
 			if (MyGame.commonAssets.assetManager.isLoaded(assetsPath, type)) {
+				System.out.println("444444444444"+fileName);
 				return MyGame.commonAssets.assetManager.get(assetsPath, type);
 			} else {
+				System.out.println("555555555555"+fileName);
 				MyGame.commonAssets.assetManager.load(assetsPath, type);
 				MyGame.commonAssets.assetManager.finishLoadingAsset(assetsPath);
 				return MyGame.commonAssets.assetManager.get(assetsPath, type);
@@ -205,20 +211,16 @@ public class MyAssetUtil {
 		if (Gdx.files.getFileHandle(
 				getAssetsPath(assetsPath) + "texture/"+textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
-			System.out.println("111111111111111111");
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		} else if (Gdx.files.getFileHandle(
 				getAssetsPath("common")+ "texture/" + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
 				FileType.Internal).exists()) {
-			System.out.println("2222222222222222222");
 			return new TextureRegion(getTexture("common", textureFileName));
 		} else {
 			TextureRegion textureRegion = getTextureAtlas(assetsPath).findRegion(textureFileName);
 			if (textureRegion != null) {
-				System.out.println("3333333333333333");
 				return textureRegion;
 			} else {
-				System.out.println("4444444444444444444");
 				return getTextureAtlas("common").findRegion(textureFileName);
 			}
 		}
