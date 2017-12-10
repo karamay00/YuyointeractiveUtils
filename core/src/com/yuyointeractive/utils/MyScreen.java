@@ -182,7 +182,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		try {
 			return new NinePatch(MyAssetUtil.getTexture(getRoot().getName(), name), left, right, up, down);
 		} catch (Exception e) {
-			return new NinePatch(MyAssetUtil.getTextureRegion(getRoot().getName(), name), left, right, up, down);
+			return new NinePatch(MyAssetUtil.getTextureAtlas(getRoot().getName()).findRegion(name), left, right, up, down);
 		}
 	}
 

@@ -200,9 +200,9 @@ public class MyAssetUtil {
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
 		try {
-			return new TextureRegion(getTexture(assetsPath, textureFileName));
-		} catch (Exception e) {
 			return getTextureAtlas(assetsPath).findRegion(textureFileName);
+		} catch (Exception e) {
+			return new TextureRegion(getTexture(assetsPath, textureFileName));
 		}
 	}
 
