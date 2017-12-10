@@ -199,9 +199,15 @@ public class MyAssetUtil {
 
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
 	public static TextureRegion getTextureRegion(String assetsPath, String textureFileName) {
-		try {
+		if (Gdx.files.getFileHandle(
+				getAssetsPath(assetsPath) + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
+				FileType.Internal).exists()) {
 			return new TextureRegion(getTexture(assetsPath, textureFileName));
-		} catch (Exception e) {
+		} else if (Gdx.files.getFileHandle(
+				getAssetsPath("common") + textureFileName + (textureFileName.contains(".") ? "" : ".png"),
+				FileType.Internal).exists()) {
+			return new TextureRegion(getTexture("common", textureFileName));
+		} else {
 			TextureRegion textureRegion = getTextureAtlas(assetsPath).findRegion(textureFileName);
 			if (textureRegion != null) {
 				return textureRegion;
@@ -209,7 +215,6 @@ public class MyAssetUtil {
 				return getTextureAtlas("common").findRegion(textureFileName);
 			}
 		}
-		
 	}
 
 	/** 单张texture时如果是png不用加后缀名，其他要加.jpg之类的后缀 */
