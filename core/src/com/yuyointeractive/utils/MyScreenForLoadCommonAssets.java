@@ -4,12 +4,12 @@ public class MyScreenForLoadCommonAssets extends MyScreen {
   public MyScreenForLoadCommonAssets(MyGame myGame, String name) {
     super(myGame, name);
   }
-  @Override
-  public void init(MyGame myGame, String name) {
-    super.init(myGame, name);
-    MyGame.commonAssets.isLoadingFinish = false;
-    MyGame.commonAssets.load();
-  }
+//  @Override
+//  public void init(MyGame myGame, String name) {
+//    super.init(myGame, name);
+//    MyGame.commonAssets.isLoadingFinish = false;
+//    MyGame.commonAssets.load();
+//  }
   @Override
   public void assign() {
     if (MyGame.commonAssets.isLoadingFinish) {
