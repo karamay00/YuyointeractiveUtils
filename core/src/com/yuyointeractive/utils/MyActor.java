@@ -666,10 +666,8 @@ public class MyActor {
     private boolean isChecked;
     private ClickListener clickListener;
     private Drawable imageUp, imageDown, imageChecked;
-    private Sound sound;
-    public MyImageButton(Sound buttonSound, TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked) {
+    public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked) {
       super();
-      this.sound = buttonSound;
       this.imageUp = new TextureRegionDrawable(imageUp);
       this.imageDown = new TextureRegionDrawable(imageDown);
       this.imageChecked = (imageChecked == null) ? null : new TextureRegionDrawable(imageChecked);
@@ -683,21 +681,16 @@ public class MyActor {
         }
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-          if (sound != null & MyGame.isSoundPlay) {
-            sound.play();
-          }
+			Sound btnSound = MyAssetUtil.getSound(getStage().getRoot().getName(), "btnSound");
+			if (btnSound != null && MyGame.isSoundPlay) {
+				btnSound.play(MyGame.soundVolume);
+			}
           return super.touchDown(event, x, y, pointer, button);
         }
       });
     }
-    public MyImageButton(Sound buttonSound, TextureRegion imageUp, TextureRegion imageDown) {
-      this(buttonSound, imageUp, imageDown, null);
-    }
-    public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked) {
-      this(null, imageUp, imageDown, imageChecked);
-    }
     public MyImageButton(TextureRegion imageUp, TextureRegion imageDown) {
-      this(null, imageUp, imageDown, null);
+      this(imageUp, imageDown, null);
     }
     public void setChecked(boolean isChecked) {
       if (this.isChecked == isChecked)
