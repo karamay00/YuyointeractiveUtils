@@ -748,22 +748,45 @@ public class MyActor {
 
 	public static class MyImageButton extends MyButton {
 		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked) {
-			this(imageUp, imageDown, imageChecked, null);
+			this(imageUp, imageDown, imageChecked, null, null);
 		}
 
 		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked,
 				TouchUpEvent touchUpEvent) {
+			this(imageUp, imageDown, imageChecked, touchUpEvent, null);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked,
+				TouchDownEvent touchDownEvent) {
+			this(imageUp, imageDown, imageChecked, null, touchDownEvent);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown) {
+			this(imageUp, imageDown, null, null, null);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TouchUpEvent touchUpEvent) {
+			this(imageUp, imageDown, null, touchUpEvent, null);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TouchDownEvent touchDownEvent) {
+			this(imageUp, imageDown, null, null, touchDownEvent);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TouchUpEvent touchUpEvent,
+				TouchDownEvent touchDownEvent) {
+			this(imageUp, imageDown, null, touchUpEvent, touchDownEvent);
+		}
+
+		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown, TextureRegion imageChecked,
+				TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
 			super();
 			this.imageUp = new TextureRegionDrawable(imageUp);
 			this.imageDown = new TextureRegionDrawable(imageDown);
 			this.imageChecked = (imageChecked == null) ? null : new TextureRegionDrawable(imageChecked);
 			setSize(imageUp.getRegionWidth(), imageUp.getRegionHeight());
 			setDrawable(this.imageUp);
-			initialize(touchUpEvent);
-		}
-
-		public MyImageButton(TextureRegion imageUp, TextureRegion imageDown) {
-			this(imageUp, imageDown, null);
+			initialize(touchUpEvent, touchDownEvent);
 		}
 
 		public boolean isPressed() {
@@ -789,39 +812,92 @@ public class MyActor {
 	}
 
 	public static class DiscolorButton extends MyButton {
-		public DiscolorButton(NinePatch patch, TouchUpEvent touchUpEvent) {
-			this(new NinePatchDrawable(patch), Scaling.stretch, Align.center, touchUpEvent);
+		public DiscolorButton(NinePatch patch, TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
+			this(new NinePatchDrawable(patch), Scaling.stretch, Align.center, touchUpEvent, touchDownEvent);
 		}
 
-		public DiscolorButton(TextureRegion region, TouchUpEvent touchUpEvent) {
-			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, touchUpEvent);
+		public DiscolorButton(NinePatch patch, TouchUpEvent touchUpEvent) {
+			this(new NinePatchDrawable(patch), Scaling.stretch, Align.center, touchUpEvent, null);
+		}
+
+		public DiscolorButton(NinePatch patch, TouchDownEvent touchDownEvent) {
+			this(new NinePatchDrawable(patch), Scaling.stretch, Align.center, null, touchDownEvent);
+		}
+
+		public DiscolorButton(Texture texture, TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
+			this(new TextureRegionDrawable(new TextureRegion(texture)), touchUpEvent, touchDownEvent);
 		}
 
 		public DiscolorButton(Texture texture, TouchUpEvent touchUpEvent) {
-			this(new TextureRegionDrawable(new TextureRegion(texture)), touchUpEvent);
+			this(new TextureRegionDrawable(new TextureRegion(texture)), touchUpEvent, null);
 		}
 
-		public DiscolorButton(Skin skin, String drawableName, TouchUpEvent touchUpEvent) {
-			this(skin.getDrawable(drawableName), Scaling.stretch, Align.center, touchUpEvent);
+		public DiscolorButton(Texture texture, TouchDownEvent touchDownEvent) {
+			this(new TextureRegionDrawable(new TextureRegion(texture)), Scaling.stretch, Align.center, null,
+					touchDownEvent);
 		}
 
-		public DiscolorButton(Drawable drawable, TouchUpEvent touchUpEvent) {
-			this(drawable, Scaling.stretch, Align.center, touchUpEvent);
+		public DiscolorButton(TextureRegion region, TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
+			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, touchUpEvent, touchDownEvent);
+		}
+
+		public DiscolorButton(TextureRegion region, TouchUpEvent touchUpEvent) {
+			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, touchUpEvent, null);
+		}
+
+		public DiscolorButton(TextureRegion region, TouchDownEvent touchDownEvent) {
+			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, null, touchDownEvent);
+		}
+
+		public DiscolorButton(Drawable drawable, Scaling scaling, TouchUpEvent touchUpEvent,
+				TouchDownEvent touchDownEvent) {
+			this(drawable, scaling, Align.center, touchUpEvent, touchDownEvent);
 		}
 
 		public DiscolorButton(Drawable drawable, Scaling scaling, TouchUpEvent touchUpEvent) {
-			this(drawable, scaling, Align.center, touchUpEvent);
+			this(drawable, scaling, Align.center, touchUpEvent, null);
 		}
 
-		public DiscolorButton(Drawable drawable, Scaling scaling, int align, TouchUpEvent touchUpEvent) {
+		public DiscolorButton(Drawable drawable, Scaling scaling, TouchDownEvent touchDownEvent) {
+			this(drawable, scaling, Align.center, null, touchDownEvent);
+		}
+
+		public DiscolorButton(Drawable drawable, TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
+			this(drawable, Scaling.stretch, Align.center, touchUpEvent, touchDownEvent);
+		}
+
+		public DiscolorButton(Drawable drawable, TouchUpEvent touchUpEvent) {
+			this(drawable, Scaling.stretch, Align.center, touchUpEvent, null);
+		}
+
+		public DiscolorButton(Drawable drawable, TouchDownEvent touchDownEvent) {
+			this(drawable, Scaling.stretch, Align.center, null, touchDownEvent);
+		}
+
+		public DiscolorButton(Skin skin, String drawableName, TouchUpEvent touchUpEvent,
+				TouchDownEvent touchDownEvent) {
+			this(skin.getDrawable(drawableName), Scaling.stretch, Align.center, touchUpEvent, touchDownEvent);
+		}
+
+		public DiscolorButton(Skin skin, String drawableName, TouchUpEvent touchUpEvent) {
+			this(skin.getDrawable(drawableName), Scaling.stretch, Align.center, touchUpEvent, null);
+		}
+
+		public DiscolorButton(Skin skin, String drawableName, TouchDownEvent touchDownEvent) {
+			this(skin.getDrawable(drawableName), Scaling.stretch, Align.center, null, touchDownEvent);
+		}
+
+		public DiscolorButton(Drawable drawable, Scaling scaling, int align, TouchUpEvent touchUpEvent,
+				TouchDownEvent touchDownEvent) {
 			super(drawable, scaling, align);
-			initialize(touchUpEvent);
+			initialize(touchUpEvent, touchDownEvent);
 		}
 	}
 
 	public static class MyButton extends Image {
 		protected ClickListener clickListener;
 		private Array<TouchUpEvent> touchUpEvents;
+		private Array<TouchDownEvent> touchDownEvents;
 		public Drawable imageUp = null, imageDown = null, imageChecked = null;
 		boolean isChecked, isDisabled;
 		MyButtonGroup buttonGroup;
@@ -858,9 +934,11 @@ public class MyActor {
 			super(drawable, scaling, align);
 		}
 
-		public void initialize(TouchUpEvent touchUpEvent) {
+		public void initialize(TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
 			touchUpEvents = new Array<TouchUpEvent>();
 			touchUpEvents.add(touchUpEvent);
+			touchDownEvents = new Array<TouchDownEvent>();
+			touchDownEvents.add(touchDownEvent);
 			clickListener = new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -889,6 +967,12 @@ public class MyActor {
 					Sound btnSound = MyAssetUtil.getSound(getStage().getRoot().getName(), "btnSound");
 					if (btnSound != null && MyGame.isSoundPlay) {
 						btnSound.play(MyGame.soundVolume);
+					}
+					if (event.getTarget().hit(x, y, true) == null) {
+						return super.touchDown(event, x, y, pointer, button);
+					}
+					for (int i = 0; i < touchDownEvents.size; i++) {
+						touchDownEvents.get(i).run(event);
 					}
 					return super.touchDown(event, x, y, pointer, button);
 				}
@@ -933,7 +1017,23 @@ public class MyActor {
 			touchUpEvents.clear();
 		}
 
+		public void addTouchDownEvent(TouchDownEvent touchDownEvent) {
+			touchDownEvents.add(touchDownEvent);
+		}
+
+		public void removeTouchDownEvent(TouchDownEvent touchDownEvent) {
+			touchDownEvents.removeValue(touchDownEvent, false);
+		}
+
+		public void clearTouchDownEvents() {
+			touchDownEvents.clear();
+		}
+
 		public static interface TouchUpEvent {
+			public void run(InputEvent event);
+		}
+
+		public static interface TouchDownEvent {
 			public void run(InputEvent event);
 		}
 	}
