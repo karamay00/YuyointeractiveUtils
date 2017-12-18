@@ -896,7 +896,7 @@ public class MyActor {
 			addListener(clickListener);
 		}
 
-		void setChecked(boolean isChecked) {
+		public void setChecked(boolean isChecked) {
 			if (this.isChecked == isChecked)
 				return;
 			if (buttonGroup != null && !buttonGroup.canCheck(this, isChecked))
