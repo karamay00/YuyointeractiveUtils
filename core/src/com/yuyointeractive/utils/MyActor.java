@@ -936,9 +936,13 @@ public class MyActor {
 
 		public void initialize(TouchUpEvent touchUpEvent, TouchDownEvent touchDownEvent) {
 			touchUpEvents = new Array<TouchUpEvent>();
-			touchUpEvents.add(touchUpEvent);
+			if (touchUpEvent != null) {
+				touchUpEvents.add(touchUpEvent);
+			}
 			touchDownEvents = new Array<TouchDownEvent>();
-			touchDownEvents.add(touchDownEvent);
+			if (touchDownEvent != null) {
+				touchDownEvents.add(touchDownEvent);
+			}
 			clickListener = new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
