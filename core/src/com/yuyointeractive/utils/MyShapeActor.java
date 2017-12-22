@@ -129,6 +129,7 @@ public abstract class MyShapeActor extends Actor {
 	public static class SunLight extends MyShapeActor {
 		private boolean isContinueShow;
 		private Color color1, color2, color3, color4, color5, color6, color7, color8;
+
 		public SunLight() {
 			super();
 			setSize(320, 320);
@@ -187,12 +188,12 @@ public abstract class MyShapeActor extends Actor {
 			}
 			for (int i = 0; i < 30; i++) {
 				MyGame.shapeRenderer.rotate(0, 0, 1, 12);
-				MyGame.shapeRenderer.triangle(0, 0, -250 * 0.10510423345f, 250, 250 * 0.10510423345f, 250, color3,
-						color4, color4);
-				MyGame.shapeRenderer.triangle(0, 0, -170 * 0.10510423345f, 170, 170 * 0.10510423345f, 170, color5,
-						color6, color6);
-				MyGame.shapeRenderer.triangle(0, 0, -150 * 0.10510423345f, 150, 150 * 0.10510423345f, 150, color7,
-						color8, color8);
+				MyGame.shapeRenderer.triangle(0, 0, -250 / 320 * getWidth() * 0.10510423345f, 250 / 320 * getHeight(),
+						250 / 320 * getWidth() * 0.10510423345f, 250 / 320 * getHeight(), color3, color4, color4);
+				MyGame.shapeRenderer.triangle(0, 0, -170 / 320 * getWidth() * 0.10510423345f, 170 / 320 * getHeight(),
+						170 / 320 * getWidth() * 0.10510423345f, 170 / 320 * getHeight(), color5, color6, color6);
+				MyGame.shapeRenderer.triangle(0, 0, -150 / 320 * getWidth() * 0.10510423345f, 150 / 320 * getHeight(),
+						150 / 320 * getWidth() * 0.10510423345f, 150 / 320 * getHeight(), color7, color8, color8);
 			}
 		}
 	}
