@@ -849,6 +849,10 @@ public class MyActor {
 			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, null, touchDownEvent);
 		}
 
+		public DiscolorButton(TextureRegion region) {
+			this(new TextureRegionDrawable(region), Scaling.stretch, Align.center, null, null);
+		}
+
 		public DiscolorButton(Drawable drawable, Scaling scaling, TouchUpEvent touchUpEvent,
 				TouchDownEvent touchDownEvent) {
 			this(drawable, scaling, Align.center, touchUpEvent, touchDownEvent);
