@@ -40,6 +40,7 @@ import net.mwplay.nativefont.NativeTextField;
 
 public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	public MyGame myGame;
+	private boolean isAssignFinished;
 
 	public MyScreen(MyGame myGame, String name) {
 		this(myGame, name, new FillViewport(MyGame.worldWidth, MyGame.worldHeight), new PolygonSpriteBatch());
@@ -60,6 +61,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	}
 
 	public void init(MyGame myGame, String name) {
+		isAssignFinished = false;
 		addActor(MyGame.loadingScreen);
 		this.myGame = myGame;
 		getRoot().setName(name);
@@ -67,6 +69,11 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	}
 
 	public void assign() {
+		MyGame.assetManager.finishLoading();
+		if (isAssignFinished) {
+			onTempLoadingFinished();
+			return;
+		}
 		// InputMultiplexer multiplexer = new InputMultiplexer();
 		// multiplexer.addProcessor(this);
 		// multiplexer.addProcessor(new GestureDetector(this));
@@ -74,7 +81,6 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		Gdx.input.setInputProcessor(this);
 		Gdx.input.setCatchBackKey(true);
 		// Gdx.input.setCatchMenuKey(true);
-		MyGame.assetManager.finishLoading();
 		if (MyGame.loadingScreen != null) {
 			MyGame.loadingScreen.remove();
 		}
@@ -84,6 +90,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		for (BitmapFont bitmapFont : MyGame.assetManager.getAll(BitmapFont.class, new Array<BitmapFont>())) {
 			bitmapFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
+		isAssignFinished = true;
 	}
 
 	public String getName() {
@@ -399,12 +406,15 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		act();
 		draw();
-		if (!MyGame.isLoadingFinish) {
+		if (!MyGame.isLoadingFinished) {
 			if (MyGame.assetManager.update()) {
 				assign();
-				MyGame.isLoadingFinish = true;
+				MyGame.isLoadingFinished = true;
 			}
 		}
+	}
+
+	protected void onTempLoadingFinished() {
 	}
 
 	@Override

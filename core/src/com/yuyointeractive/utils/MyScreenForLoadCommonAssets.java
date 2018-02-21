@@ -18,7 +18,7 @@ public class MyScreenForLoadCommonAssets extends MyScreen {
 			if (MyGame.commonAssets.assetManager.update()) {
 				MyGame.commonAssets.assign();
 				MyGame.commonAssets.isLoadingFinish = true;
-				if (MyGame.isLoadingFinish) {
+				if (MyGame.isLoadingFinished) {
 					assign();
 				}
 			}

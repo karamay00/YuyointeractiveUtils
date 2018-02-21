@@ -23,7 +23,7 @@ public abstract class MyGame extends Game {
     public static boolean isChinese;
     public static boolean isMusicPlay = true;
     public static boolean isSoundPlay = true;
-    public static boolean isLoadingFinish = false;
+    public static boolean isLoadingFinished = false;
     public static Group loadingScreen = null;
     public static AssetManager assetManager = null;
     public static Preferences prefs = null;
@@ -70,7 +70,7 @@ public abstract class MyGame extends Game {
 	prefs = Gdx.app.getPreferences("LibGdxPreferences");
 	isMusicPlay = true;
 	isSoundPlay = true;
-	isLoadingFinish = false;
+	isLoadingFinished = false;
 	assignLoadingScreen();
 	setStartScreen();
 	NativeFont font = new NativeFont(new NativeFontPaint(25));

@@ -29,7 +29,7 @@ public class MyAssetUtil {
 	public static void loadAssets(AssetManager assetManager, String assetsPath) {
 		assetsPath = getAssetsPath(assetsPath);
 		if (MyGame.assetManager == assetManager) {
-			MyGame.isLoadingFinish = false;
+			MyGame.isLoadingFinished = false;
 		}
 		for (FileHandle file : Gdx.files.internal(assetsPath + "fnt/").list()) {
 			if (file.extension().matches("fnt")) {
@@ -125,47 +125,51 @@ public class MyAssetUtil {
 	}
 
 	public static void playSound(String assetsPath, String mp3FileName, float volume) {
-		mp3FileName = getAssetsPath(assetsPath) + "sound/" + mp3FileName + ".mp3";
-		if (Gdx.files.getFileHandle(mp3FileName, FileType.Internal).exists()) {
-			if (MyGame.assetManager.isLoaded(mp3FileName, Sound.class)) {
-				if (MyGame.isSoundPlay) {
-					MyGame.assetManager.get(mp3FileName, Sound.class).play(volume);
-				}
-			} else {
-				MyGame.assetManager.load(mp3FileName, Sound.class);
-				MyGame.assetManager.finishLoadingAsset(mp3FileName);
-				if (Gdx.app.getType() == ApplicationType.Android) {
-					try {
-						Thread.sleep(400);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				if (MyGame.isSoundPlay) {
-					MyGame.assetManager.get(mp3FileName, Sound.class).play(volume);
-				}
-			}
-		} else {
-			mp3FileName = getAssetsPath("common") + "sound/" + mp3FileName + ".mp3";
-			if (MyGame.commonAssets.assetManager.isLoaded(mp3FileName, Sound.class)) {
-				if (MyGame.isSoundPlay) {
-					MyGame.commonAssets.assetManager.get(mp3FileName, Sound.class).play(volume);
-				}
-			} else {
-				MyGame.commonAssets.assetManager.load(mp3FileName, Sound.class);
-				MyGame.commonAssets.assetManager.finishLoadingAsset(mp3FileName);
-				if (Gdx.app.getType() == ApplicationType.Android) {
-					try {
-						Thread.sleep(400);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				if (MyGame.isSoundPlay) {
-					MyGame.commonAssets.assetManager.get(mp3FileName, Sound.class).play(volume);
-				}
-			}
+		if (MyGame.isSoundPlay) {
+			Sound sound = getSound(assetsPath, mp3FileName);
+			sound.play(volume);
 		}
+//		mp3FileName = getAssetsPath(assetsPath) + "sound/" + mp3FileName + ".mp3";
+//		if (Gdx.files.getFileHandle(mp3FileName, FileType.Internal).exists()) {
+//			if (MyGame.assetManager.isLoaded(mp3FileName, Sound.class)) {
+//				if (MyGame.isSoundPlay) {
+//					MyGame.assetManager.get(mp3FileName, Sound.class).play(volume);
+//				}
+//			} else {
+//				MyGame.assetManager.load(mp3FileName, Sound.class);
+//				MyGame.assetManager.finishLoadingAsset(mp3FileName);
+//				if (Gdx.app.getType() == ApplicationType.Android) {
+//					try {
+//						Thread.sleep(400);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				if (MyGame.isSoundPlay) {
+//					MyGame.assetManager.get(mp3FileName, Sound.class).play(volume);
+//				}
+//			}
+//		} else {
+//			mp3FileName = getAssetsPath("common") + "sound/" + mp3FileName + ".mp3";
+//			if (MyGame.commonAssets.assetManager.isLoaded(mp3FileName, Sound.class)) {
+//				if (MyGame.isSoundPlay) {
+//					MyGame.commonAssets.assetManager.get(mp3FileName, Sound.class).play(volume);
+//				}
+//			} else {
+//				MyGame.commonAssets.assetManager.load(mp3FileName, Sound.class);
+//				MyGame.commonAssets.assetManager.finishLoadingAsset(mp3FileName);
+//				if (Gdx.app.getType() == ApplicationType.Android) {
+//					try {
+//						Thread.sleep(400);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				if (MyGame.isSoundPlay) {
+//					MyGame.commonAssets.assetManager.get(mp3FileName, Sound.class).play(volume);
+//				}
+//			}
+//		}
 	}
 
 	public static Music getMusic(String assetsPath, String mp3FileName) {
