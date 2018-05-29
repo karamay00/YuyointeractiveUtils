@@ -1,7 +1,5 @@
 package com.yuyointeractive.utils;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -428,7 +426,7 @@ public class MyActor {
 	}
 
 	public static class CountdownLabel extends Label {
-		private Timer timer;
+		// private Timer timer;
 		private int counter = 0;
 		private Array<InsertEvent> insertEvents;
 
@@ -438,12 +436,37 @@ public class MyActor {
 
 		public CountdownLabel(BitmapFont bitmapfont, Color color) {
 			super("0", new LabelStyle(bitmapfont, color));
-			timer = new Timer(true);
+			// timer = new Timer(true);
 			insertEvents = new Array<InsertEvent>();
-			timer.schedule(new TimerTask() {
+			// timer.schedule(new TimerTask() {
+			// @Override
+			// public void run() {
+			// // 将foreach改成下面这种按索引遍历就对了，看来以后有空得把foreach的地方都尽量改成按索引遍历
+			// for (int i = 0; i < insertEvents.size; i++) {
+			// if (!insertEvents.get(i).complete) {
+			// if (insertEvents.get(i).start == counter) {
+			// insertEvents.get(i).run();
+			// insertEvents.get(i).complete = true;
+			// }
+			// }
+			// }
+			// // for (InsertEvent insertEvent : insertEvents) {
+			// // if (!insertEvent.complete) {
+			// // if (insertEvent.start == counter) {
+			// // insertEvent.run();
+			// // insertEvent.complete = true;
+			// // }
+			// // }
+			// // }
+			// if (counter > 0) {
+			// counter--;
+			// }
+			// setText("" + counter);
+			// }
+			// }, 0, 1000);
+			addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
 				@Override
 				public void run() {
-					// 将foreach改成下面这种按索引遍历就对了，看来以后有空得把foreach的地方都尽量改成按索引遍历
 					for (int i = 0; i < insertEvents.size; i++) {
 						if (!insertEvents.get(i).complete) {
 							if (insertEvents.get(i).start == counter) {
@@ -452,37 +475,12 @@ public class MyActor {
 							}
 						}
 					}
-					// for (InsertEvent insertEvent : insertEvents) {
-					// if (!insertEvent.complete) {
-					// if (insertEvent.start == counter) {
-					// insertEvent.run();
-					// insertEvent.complete = true;
-					// }
-					// }
-					// }
 					if (counter > 0) {
 						counter--;
 					}
 					setText("" + counter);
 				}
-			}, 0, 1000);
-			// addAction(Actions.forever(Actions.delay(1, Actions.run(new Runnable() {
-			// @Override
-			// public void run() {
-			// for (InsertEvent insertEvent : insertEvents) {
-			// if (!insertEvent.complete) {
-			// if (insertEvent.start == counter) {
-			// insertEvent.run();
-			// insertEvent.complete = true;
-			// }
-			// }
-			// }
-			// if (counter > 0) {
-			// counter--;
-			// }
-			// setText("" + counter);
-			// }
-			// }))));
+			}))));
 		}
 
 		public void start(int countdownTime) {
@@ -501,9 +499,9 @@ public class MyActor {
 			insertEvents.clear();
 		}
 
-		public void clearTimerTask() {
-			timer.cancel();
-		}
+//		public void clearTimerTask() {
+//			timer.cancel();
+//		}
 
 		public void addInsertEvent(InsertEvent insertEvent) {
 			insertEvents.add(insertEvent);

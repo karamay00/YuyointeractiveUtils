@@ -1,7 +1,5 @@
 package com.yuyointeractive.utils;
 
-import java.awt.RenderingHints;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
