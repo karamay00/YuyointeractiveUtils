@@ -43,29 +43,35 @@ public abstract class MyGame extends Game {
 	screens = new HashMap<String, MyScreen>();
 	setWorldSize();
     }
+    
+    public void updateSceenSize() {
+    	boolean isCutHeight;
+    	// screen长宽，剪裁过但未缩放的尺寸
+    	float screenWidth;
+    	float screenHeight;
+    	isCutHeight = worldHeight * Gdx.graphics.getWidth() > worldWidth * Gdx.graphics.getHeight() ? true : false;
+    	if (isCutHeight) {
+    	    screenWidth = worldWidth;
+    	    screenHeight = (worldWidth * Gdx.graphics.getHeight()) / Gdx.graphics.getWidth();
+    	    screenScale = Gdx.graphics.getWidth() / screenWidth;
+    	    offX = 0;
+    	    offY = (worldHeight - screenHeight) / 2;
+    	} else {
+    	    screenHeight = worldHeight;
+    	    screenWidth = (worldHeight * Gdx.graphics.getWidth()) / Gdx.graphics.getHeight();
+    	    screenScale = Gdx.graphics.getHeight() / screenHeight;
+    	    offX = (worldWidth - screenWidth) / 2;
+    	    offY = 0;
+    	}
+	}
 
     @Override
     public void create() {
 	// Gdx.graphics.setContinuousRendering(false);
 	// Gdx.graphics.requestRendering();
-	boolean isCutHeight;
-	// screen长宽，剪裁过但未缩放的尺寸
-	float screenWidth;
-	float screenHeight;
-	isCutHeight = worldHeight * Gdx.graphics.getWidth() > worldWidth * Gdx.graphics.getHeight() ? true : false;
-	if (isCutHeight) {
-	    screenWidth = worldWidth;
-	    screenHeight = (worldWidth * Gdx.graphics.getHeight()) / Gdx.graphics.getWidth();
-	    screenScale = Gdx.graphics.getWidth() / screenWidth;
-	    offX = 0;
-	    offY = (worldHeight - screenHeight) / 2;
-	} else {
-	    screenHeight = worldHeight;
-	    screenWidth = (worldHeight * Gdx.graphics.getWidth()) / Gdx.graphics.getHeight();
-	    screenScale = Gdx.graphics.getHeight() / screenHeight;
-	    offX = (worldWidth - screenWidth) / 2;
-	    offY = 0;
-	}
+    System.out.println("MyGame.create()000000000");
+    updateSceenSize();
+    System.out.println("MyGame.create()11111111");
 	assetManager = new AssetManager();
 	prefs = Gdx.app.getPreferences("LibGdxPreferences");
 	isMusicPlay = true;
