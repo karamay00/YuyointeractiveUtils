@@ -1038,11 +1038,11 @@ public class MyActor {
 			touchDownEvents.clear();
 		}
 
-		public static interface TouchUpEvent {
+		public static interface TouchUpEvent<InputEvent> {
 			public void run(InputEvent event);
 		}
 
-		public static interface TouchDownEvent {
+		public static interface TouchDownEvent<InputEvent> {
 			public void run(InputEvent event);
 		}
 	}
