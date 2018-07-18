@@ -69,9 +69,7 @@ public abstract class MyGame extends Game {
     public void create() {
 	// Gdx.graphics.setContinuousRendering(false);
 	// Gdx.graphics.requestRendering();
-    System.out.println("MyGame.create()000000000");
     updateSceenSize();
-    System.out.println("MyGame.create()11111111");
 	assetManager = new AssetManager();
 	prefs = Gdx.app.getPreferences("LibGdxPreferences");
 	isMusicPlay = true;
@@ -111,7 +109,6 @@ public abstract class MyGame extends Game {
 	super.dispose();
 
 	if (commonAssets != null) {
-		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMyGame.dispose()");
 	    commonAssets.dispose();
 	}
 	assetManager.dispose();

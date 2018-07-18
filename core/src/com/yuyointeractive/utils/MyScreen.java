@@ -397,9 +397,7 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 
 	@Override
 	public void resize(int width, int height) {
-		System.out.println("MyScreen.resize()");
 		getViewport().update(width, height, false);
-		myGame.updateSceenSize();
 	}
 
 	@Override

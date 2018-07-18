@@ -245,7 +245,7 @@ final public class MyWidget {
 		}
 	}
   
-  public static void loadTextureFromUrl(final String url, final LoadTextureFromUrlFinished loadTextureFromUrlFinished) {
+  public static void loadTextureFromUrl(final String url, final LoadTextureFromUrlFinished<Texture> loadTextureFromUrlFinished) {
     new Thread() {
       @Override
       public void run() {
@@ -279,7 +279,7 @@ final public class MyWidget {
       };
     }.start();
   }
-  public static interface LoadTextureFromUrlFinished {
+  public static interface LoadTextureFromUrlFinished <Texture>{
     public void toDo(Texture texture);
   }
 }

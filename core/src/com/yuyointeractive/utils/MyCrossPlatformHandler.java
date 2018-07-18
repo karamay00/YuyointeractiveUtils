@@ -1,7 +1,5 @@
 package com.yuyointeractive.utils;
 
-import javax.sql.rowset.Joinable;
-
 public interface MyCrossPlatformHandler {
   // public void loadingRank();
   //
