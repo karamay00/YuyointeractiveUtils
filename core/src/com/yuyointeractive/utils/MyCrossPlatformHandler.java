@@ -29,6 +29,7 @@ public interface MyCrossPlatformHandler {
   //public void loginAlipay();
   public void shareWeChatTimeLine(String title, String description);
   public void shareWeChatSession(String title, String description);
+  public void shareWeChatImage();
   //public void shareAlipay(String str);
   
  // public void startSpeak();
