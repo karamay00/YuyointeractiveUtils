@@ -42,6 +42,8 @@ public void startRecordVoice();
 public void stopRecordVoice(boolean isCancelUpload);
 public void playVoice(String url,byte pos);
 public void loginYunvaIm(String id, String nickname);
+
+public void universal(Object object);
   
   
 //  public void startRecordVoice(String id);
