@@ -77,10 +77,10 @@ public abstract class MyGame extends Game {
 	isLoadingFinished = false;
 	assignLoadingScreen();
 	setStartScreen();
-	NativeFont font = new NativeFont(new NativeFontPaint(25));
+	NativeFont font = new NativeFont(new NativeFontPaint(80));
 	font.appendText(DEFAULT_CHARS);
 	MyGame.fonts.put("font", font);
-	NativeFont font20 = new NativeFont(new NativeFontPaint(20));
+	NativeFont font20 = new NativeFont(new NativeFontPaint(60));
 	font20.appendText(DEFAULT_CHARS);
 	fonts.put("font20", font20);
     }

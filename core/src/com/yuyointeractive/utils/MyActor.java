@@ -262,10 +262,11 @@ public class MyActor {
 		private Texture fboTexture = null;
 		private TextureRegion fboRegion = null;
 		private float radius;
+		private byte lineWidth;
+		private float temp;
 
-		public CutoutRoundRect(float x, float y, float width, float height, float radius) {
+		public CutoutRoundRect(float x, float y, float width, float height, float radius, byte lineWidth) {
 			super();
-			isSolid = false;
 			if (MyGame.shapeRenderer == null) {
 				MyGame.shapeRenderer = new ShapeRenderer();
 			}
@@ -278,30 +279,24 @@ public class MyActor {
 			fboTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			fboRegion = new TextureRegion(fboTexture);
 			fboRegion.flip(false, true);
+			this.lineWidth = lineWidth;
+			temp= 0.41421f*radius/1.41421f;
+		}
+
+		public CutoutRoundRect(float x, float y, float width, float height, byte lineWidth) {
+			this(x, y, width, height, width < height ? width / 8 : height / 8, lineWidth);
 		}
 
 		public CutoutRoundRect(float x, float y, float width, float height) {
-			this(x, y, width, height, width < height ? width / 8 : height / 8);
+			this(x, y, width, height, (byte) 1);
 		}
 
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			if (isSolid) {
 				batch.end();
-				Gdx.gl.glEnable(GL20.GL_BLEND);
-				Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-				MyGame.shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-				MyGame.shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-				MyGame.shapeRenderer.begin(ShapeType.Filled);
-				MyGame.shapeRenderer.setColor(new Color(0, 0, 0, 0.6f));
-				MyGame.shapeRenderer.rect(0, 0, MyGame.worldWidth, MyGame.worldHeight);
-				MyGame.shapeRenderer.end();
-				Gdx.gl.glDisable(GL20.GL_BLEND);
-				batch.begin();
-			} else {
-				batch.end();
 				fbo.begin();
-				Gdx.gl20.glClearColor(0f, 0f, 0f, 0.6f);
+				Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 				Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 				batch.begin();
 				MyGame.shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -324,6 +319,36 @@ public class MyActor {
 				Gdx.gl20.glViewport(getStage().getViewport().getScreenX(), getStage().getViewport().getScreenY(),
 						getStage().getViewport().getScreenWidth(), getStage().getViewport().getScreenHeight());
 				batch.begin();
+				batch.draw(fboRegion, 0, 0);
+			} else {
+				batch.end();
+				fbo.begin();
+				Gdx.gl20.glClearColor(0f, 0f, 0f,0f);
+				Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+				batch.begin();
+				MyGame.shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+				MyGame.shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+				MyGame.shapeRenderer.translate(getX() + getOriginX(), getY() + getOriginY(), 0);
+				MyGame.shapeRenderer.scale(getScaleX(), getScaleY(), 1);
+				MyGame.shapeRenderer.rotate(0, 0, 1, getRotation());
+				MyGame.shapeRenderer.begin(ShapeType.Line);
+				MyGame.shapeRenderer.setColor(getColor());
+				Gdx.gl.glLineWidth(lineWidth);
+				MyGame.shapeRenderer.curve(0, radius, temp,temp,temp,temp, radius, 0, 25);
+				MyGame.shapeRenderer.curve(0, getHeight() -radius, temp,getHeight() -temp,temp,getHeight() -temp, radius, getHeight() , 25);
+				MyGame.shapeRenderer.curve(getWidth() -radius,getHeight(), getWidth() -temp,getHeight() -temp,getWidth() -temp,getHeight() -temp, getWidth(), getHeight()-radius, 25);
+				MyGame.shapeRenderer.curve(getWidth(), radius, getWidth() -temp,temp,getWidth() -temp,temp, getWidth()-radius, 0, 25);
+				MyGame.shapeRenderer.line(0, radius, 0, getHeight() - radius);
+				MyGame.shapeRenderer.line(radius, getHeight(), getWidth() - radius, getHeight());
+				MyGame.shapeRenderer.line(getWidth(), getHeight() - radius, getWidth(), radius);
+				MyGame.shapeRenderer.line(getWidth() - radius, 0, radius, 0);
+				MyGame.shapeRenderer.end();
+				batch.end();
+				fbo.end();
+				Gdx.gl20.glViewport(getStage().getViewport().getScreenX(), getStage().getViewport().getScreenY(),
+						getStage().getViewport().getScreenWidth(), getStage().getViewport().getScreenHeight());
+				batch.begin();
+				Gdx.gl.glLineWidth(1);
 				batch.draw(fboRegion, 0, 0);
 			}
 		}
