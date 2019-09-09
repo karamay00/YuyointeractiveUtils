@@ -41,7 +41,7 @@ public class MyCheckBox extends TImage {
         this.gou = gou;
         checkedListeners = new Array<>();
 
-        nativeLabel = new NativeLabel("", MyGame.getDefaultFont());
+        nativeLabel = new NativeLabel("", MyGame.maxFont);
 
         addListener(new ClickListener() {
             @Override

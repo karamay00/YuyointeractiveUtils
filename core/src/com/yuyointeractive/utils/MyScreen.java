@@ -211,20 +211,20 @@ public class MyScreen extends Stage implements Screen {// ,GestureListener{
 	}
 
 	public NativeLabel getNativeLabel(Object defaultStr) {
-		NativeLabel nativeLabel = new NativeLabel(defaultStr.toString(), MyGame.getDefaultFont());
+		NativeLabel nativeLabel = new NativeLabel(defaultStr.toString(), MyGame.maxFont);
 		nativeLabel.setColor(Color.WHITE);
 		return nativeLabel;
 	}
 
 	public NativeTextField getNativeTextFiled(Object defaultStr, NinePatch background, Drawable cursor) {
 		NinePatchDrawable ninePatchDrawable = background != null ? new NinePatchDrawable(background) : null;
-		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.WHITE, cursor,
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.maxFont, Color.WHITE, cursor,
 				null, ninePatchDrawable);
 		return new NativeTextField(defaultStr.toString(), style);
 	}
 
 	public NativeTextArea getNativeTextArea(Object defaultStr, Drawable background, Drawable cursor) {
-		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.getDefaultFont(), Color.BLACK, cursor,
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle(MyGame.maxFont, Color.BLACK, cursor,
 				null, background);
 		return new NativeTextArea(defaultStr.toString(), style);
 	}
